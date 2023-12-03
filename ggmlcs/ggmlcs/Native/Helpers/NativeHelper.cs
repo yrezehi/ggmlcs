@@ -33,38 +33,11 @@ namespace ggmlcs.Native.Helpers
                     os = "win";
                     ext = ".dll";
                 }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    os = "linux";
-                    ext = ".so";
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
-                    os = "osx";
-                    ext = ".dylib";
-                }
 
                 // Get architecture string
                 if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
                 {
                     arch = "x64";
-                }
-                else if (RuntimeInformation.ProcessArchitecture == Architecture.X86)
-                {
-                    arch = "x86";
-                }
-                else if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
-                {
-                    arch = "arm64";
-                }
-                else if (RuntimeInformation.ProcessArchitecture == Architecture.Arm)
-                {
-                    arch = "arm";
-                }
-
-                if (os == "generic" || arch == "generic")
-                {
-                    throw new PlatformNotSupportedException("The current platform is not supported.");
                 }
 
                 // Return the path
