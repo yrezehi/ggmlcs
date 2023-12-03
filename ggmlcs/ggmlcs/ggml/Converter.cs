@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ggmlcs.ggml
+namespace ggmlcs.GGML
 {
     internal class Converter
     {

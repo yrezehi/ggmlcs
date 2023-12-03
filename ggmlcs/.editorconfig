@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# S4200: Native methods should be wrapped
+dotnet_diagnostic.S4200.severity = none
