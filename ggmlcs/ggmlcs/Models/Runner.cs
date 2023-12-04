@@ -1,26 +1,22 @@
 ﻿using ggmlcs.Native;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using llama_token = System.Int32;
 
-namespace ggmlcs.Model
+namespace ggmlcs.Models
 {
     public class Runner : IDisposable
     {
-        private LLaMAModel _model;
+        private Model _model;
         private string _prompt = "";
         private int _N_THREADS = 8;
         private llama_token[] _embeds = { };
 
-        public LLaMARunner(LLaMAModel model)
+        public Runner(Model model)
         {
             this._model = model;
         }
 
-        public LLaMARunner WithPrompt(string prompt)
+        public Runner WithPrompt(string prompt)
         {
             this._prompt = prompt;
 
@@ -42,7 +38,7 @@ namespace ggmlcs.Model
             return this;
         }
 
-        public LLaMARunner WithThreads(int nThreads)
+        public Runner WithThreads(int nThreads)
         {
             this._N_THREADS = nThreads;
             return this;

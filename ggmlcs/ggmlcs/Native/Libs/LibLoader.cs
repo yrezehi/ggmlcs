@@ -1,9 +1,5 @@
-﻿using ggmlcs.Native.Libs.Platforms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ggmlcs.Native.Helpers;
+using ggmlcs.Native.Libs.Platforms;
 
 namespace ggmlcs.Native.Libs
 {
@@ -11,7 +7,7 @@ namespace ggmlcs.Native.Libs
     {
         public static void LibraryLoad()
         {
-            WindowsLoader.LibraryLoad(NativeHelper.GetNativeLibraryEnvironment);
+            WindowsLoader.LibraryLoad(NativeHelper.GetNativeLibraryEnvironment.LibraryPath);
         }
     }
 }

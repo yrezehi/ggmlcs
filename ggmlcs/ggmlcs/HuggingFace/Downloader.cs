@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ggmlcs.HuggingFace
+﻿namespace ggmlcs.HuggingFace
 {
     public class Downloader
     {
