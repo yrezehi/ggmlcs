@@ -13,3 +13,13 @@ spinning_process() {
     done
     printf "] done!\n"
 }
+
+print_instruction() {
+    if [[ "$#" -eq 1 ]]; then
+        echo -e "\n[$1]\n"
+        return 1;
+    fi
+	echo -e "\n[$1]\n"
+	# execute the command without the first parameter
+	${@:2}
+}
