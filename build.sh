@@ -53,3 +53,11 @@ build_directory="$root_directory/build"
 if [ -d "$build_directory" ]; then
 	rm -rf $build_directory
 fi
+
+print_instruction "RE/CREATE BUILD DIRECTORY"
+
+spinning_process mkdir $build_directory
+
+print_instruction "BUILD DIRECTORY" echo "$build_directory"
+  
+echo -e "\n[BUILD FINISHED]"
