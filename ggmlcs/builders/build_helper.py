@@ -5,8 +5,8 @@ import platform
 import shutil
 
 # Get the current working directory
+os.chdir("..")
 cwd = os.getcwd()
-
 
 def llama_dll():
     """
@@ -56,7 +56,7 @@ def llama_dll():
         raise OSError("The current platform is not supported.")
 
     # if runtimes doesnt exist, make the folder
-    runtimes_dir = os.path.join(cwd, "ggmlcs", "Native", "runtimes")
+    runtimes_dir = os.path.join(cwd, "ggmlcs", "ggmlcs", "Native", "Runtimes")
     if not os.path.exists(runtimes_dir):
         os.mkdir(runtimes_dir)
 
@@ -66,9 +66,9 @@ def llama_dll():
         os.mkdir(os_dir)
 
     # Destination path
-    llama_source_dir = os.path.join(cwd, "llama.cpp","build", build_artifact_lib)
+    llama_source_dir = llama_build_bin_dir = os.path.join(cwd, "ggmlcs/llama.cpp/build/bin/Debug/llama.dll")
     llama_dest_dir = os.path.join(os_dir, f"{filename}{lib_ext}")
-    llama_build_bin_dir = os.path.join(cwd, "llama.cpp","build", "bin")
+    llama_build_bin_dir = os.path.join(cwd, "ggmlcs/llama.cpp/build/bin/Debug")
 
     # Return the paths
     return llama_source_dir, llama_dest_dir, llama_build_bin_dir, os_dir
@@ -79,12 +79,12 @@ def build_llama_bin():
     """
     # Prepare the llama.cpp/build directory; remove if it exists! Use path builder instead of strings to keep it cross-platform
     print ("[BUILD] Clearing for build.")
-    build_dir = os.path.join('llama.cpp', 'build', 'debug')
-    if os.path.exists(build_dir):
-        shutil.rmtree(build_dir)
+    build_dir = os.path.join('llama.cpp')
+    #if os.path.exists(build_dir):
+    #    shutil.rmtree(build_dir)
     
     # Create the build directory
-    os.mkdir(build_dir)
+    #os.mkdir(build_dir)
 
     # Build the llama.cpp binary
     print ("[BUILD] Invoking CMAKE.")
@@ -107,7 +107,7 @@ def prepare_llama_bin():
     shutil.copy(lib_build_dir, lib_dest_dir)
 
     # Copy our pth to ggml script
-    convert_py_build_dir = os.path.join(cwd, "llama.cpp","convert-pth-to-ggml.py")
+    convert_py_build_dir = os.path.join(cwd, "ggmlcs/llama.cpp/convert-pth-to-ggml.py")
     convert_py_dest_dir = os.path.join(
         os_dest_dir,"convert-pth-to-ggml.py")
     print (f"[PREPARE] Copying convert-pth-to-ggml.py script to {convert_py_dest_dir}.")
@@ -123,7 +123,7 @@ def prepare_llama_bin():
     shutil.copy(quantize_build_dir, quantize_dest_dir)
 
     # Copy our quantize script
-    quantize_py_build_dir = os.path.join(cwd, "llama.cpp","quantize.py")
+    quantize_py_build_dir = os.path.join(cwd, "ggmlcs/llama.cpp","quantize.py")
     quantize_py_dest_dir = os.path.join(
         os_dest_dir,f"quantize.py")
     print (f"[PREPARE] Copying quantize.py script to {quantize_dest_dir}.")

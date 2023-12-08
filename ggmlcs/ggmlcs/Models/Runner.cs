@@ -10,6 +10,7 @@ namespace ggmlcs.Models
         private string _prompt = "";
         private int _N_THREADS = 8;
         private llama_token[] _embeds = { };
+        private Int32 inputTokenLength = 0;
 
         public Runner(Model model)
         {
@@ -22,7 +23,7 @@ namespace ggmlcs.Models
 
             // Convert prompt to embeddings
             var inputEmbeds = new llama_token[prompt.Length + 1];
-            var inputTokenLength = LLaMANativeMethods.llama_tokenize(_model.ctx.Value, prompt, inputEmbeds, inputEmbeds.Length, true);
+            inputTokenLength = LLaMANativeMethods.llama_tokenize(_model.ctx.Value, prompt, inputEmbeds, inputEmbeds.Length, true);
             Array.Resize(ref inputEmbeds, inputTokenLength);
 
             // Evaluate the prompt
@@ -52,7 +53,7 @@ namespace ggmlcs.Models
             for (int i = 0; i < nTokensToPredict; i++)
             {
                 // Grab the next token
-                var id = LLaMANativeMethods.llama_sample_top_p_top_k(_model.ctx.Value, null, 0, 40, 0.8f, 0.2f, 1f / 0.85f);
+                var id = LLaMANativeMethods.llama_sample_top_p_top_k(_model.ctx.Value, _embeds, inputTokenLength, 40, 0.95, 0.80, 1.10);
 
                 // Check if EOS, and break if otherwise!
                 if (id == LLaMANativeMethods.llama_token_eos())
@@ -66,13 +67,13 @@ namespace ggmlcs.Models
                 this._embeds = this._embeds.Concat(newEmbds).ToArray();
 
                 // Get res!
-                var res = Marshal.PtrToStringAnsi(LLaMANativeMethods.llama_token_to_str(_model.ctx.Value, id));
+                var res = Marshal.PtrToStringUTF8(LLaMANativeMethods.llama_token_to_str(_model.ctx.Value, id));
 
                 // Add to string
                 prediction += res;
 
                 // eval next token
-                LLaMANativeMethods.llama_eval(_model.ctx.Value, newEmbds, 1, this._embeds.Length, _N_THREADS);
+                LLaMANativeMethods.llama_eval(_model.ctx.Value, this._embeds, 1, this._embeds.Length, _N_THREADS);
             }
 
             return prediction;
