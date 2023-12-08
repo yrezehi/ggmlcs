@@ -43,3 +43,13 @@ build_llama_cpp() {
 pre_llama_cpp_build() {
 	echo "not finished!"
 }
+
+root_directory="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+print_instruction "WORKING DIRECTORY" echo "$root_directory"
+ 
+build_directory="$root_directory/build"
+
+if [ -d "$build_directory" ]; then
+	rm -rf $build_directory
+fi
