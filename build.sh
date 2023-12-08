@@ -23,3 +23,14 @@ print_instruction() {
 	# execute the command without the first parameter
 	${@:2}
 }
+
+# expects cwd to be llama.cpp/build
+
+build_llama_cpp() {        
+	if ! [ -x "$(command -v cmake)" ]; then
+	  print_instruction "FAILED" echo "Error: cmake is not installed"
+	  exit 1
+	fi
+	# build llama.cpp
+	cmake -DBUILD_SHARED_LIBS=ON .. && cmake --build .
+}
