@@ -34,3 +34,12 @@ build_llama_cpp() {
 	# build llama.cpp
 	cmake -DBUILD_SHARED_LIBS=ON .. && cmake --build .
 }
+
+
+# copies libllama to build folder
+# copies convert-pth-to-ggml.py to build folder
+# copies quantize.exe to build
+# copies quantize.py to build
+pre_llama_cpp_build() {
+	echo "not finished!"
+}
