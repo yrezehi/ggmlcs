@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace ggmlcs.Native.Binding.Structs
 {
-
     [StructLayout(LayoutKind.Sequential)]
     public struct LLamaContextParams
     {
