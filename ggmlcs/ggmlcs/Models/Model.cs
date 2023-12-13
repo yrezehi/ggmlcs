@@ -1,5 +1,7 @@
 ﻿using ggmlcs.Native.Libs;
 using ggmlcs.Native;
+using ggmlcs.Tokenizers;
+using System.Runtime.InteropServices;
 
 namespace ggmlcs.Models
 {
@@ -9,10 +11,36 @@ namespace ggmlcs.Models
         private bool isDisposed = false;
         private bool isFromFile = false;
         private bool isFromBytes = false;
+        private Tokenizer Tokenizer;
+        private BinConfiguration Configuration;
 
         private Model(IntPtr context)
         {
             this.ctx = new Lazy<IntPtr>(() => context);
+        }
+
+        public void Create(string modelPath)
+        {
+            using FileStream fileStream = new FileStream(modelPath, FileMode.Open, FileAccess.Read);
+            byte[] inBytes = new byte[Marshal.SizeOf(typeof(BinConfiguration))];
+
+            if (fileStream.Read(inBytes, 0, inBytes.Length) != inBytes.Length)
+            {
+                throw new ArgumentException("Failed to ready the configuration!");
+            }
+
+            GCHandle handleGC = GCHandle.Alloc(inBytes, GCHandleType.Pinned);
+
+            BinConfiguration configurationInstance;
+
+            try
+            {
+                configurationInstance = (BinConfiguration)Marshal.PtrToStructure(handleGC.AddrOfPinnedObject(), typeof(BinConfiguration));
+            }
+            finally { handleGC.Free(); }
+
+            Tokenizer = Tokenizer.Create(Configuration.vocab_size).Load();
+            LibLoader.LibraryLoad();
         }
 
         /// <summary>
