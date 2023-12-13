@@ -61,6 +61,18 @@ namespace ggmlcs.Native
             public static extern void llama_n_ctx_train(IntPtr model);
             [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
             public static extern void llama_n_ctx(IntPtr context);
+            [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void llama_tokenize(IntPtr context, string prompt, bool add_bos, bool special);
+            [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void llama_token_to_piece(IntPtr context, Int32 token);
+            [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void llama_token_eos(IntPtr model);
+            [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void llama_free(IntPtr context);
+            [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void llama_free_model(IntPtr model);
+            [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+            public static extern void llama_backend_free();
         }
     }
 }
