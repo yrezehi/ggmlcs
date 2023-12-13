@@ -1,6 +1,5 @@
 ﻿using ggmlcs.Native;
 using System.Runtime.InteropServices;
-using llama_token = System.Int32;
 
 namespace ggmlcs.Models
 {
