@@ -9,6 +9,10 @@ namespace ggmlcs.Native.Binding.Structs
 {
     public class LLamaParams
     {
-        public int seed;
+        public int ContextSize { get; set; } = 512;
+        public float RoPEFrequencyBase { get; set; } = 0.0f;
+        public float RopeFrequencyScale { get; set; } = 0.0f;
+        public long Seed { get; set; } = DateTime.Now.Ticks;
+        public bool Numa { get; set; } = false;
     }
 }
