@@ -11,14 +11,24 @@ namespace ggmlcs.Native.Binding.Structs
     [StructLayout(LayoutKind.Sequential)]
     public struct LLamaContextParams
     {
-        public int n_ctx;   // text context
-        public int n_parts; // -1 for default
-        public int seed;    // RNG seed, 0 for random
-
-        public bool f16_kv;     // use fp16 for KV cache
-        public bool logits_all; // the llama_eval() call computes all logits, not just the last one
-        public bool vocab_only; // only load the vocabulary, no weights
-        public bool use_mlock;  // force system to keep model in RAM
-        public bool embedding;  // embedding mode only
+        public int seed;
+        public int n_ctx;
+        public int n_batch;
+        public int n_threads;
+        public int n_threads_batch;
+        public int rope_scaling_type;
+        public float rope_freq_base;
+        public float rope_freq_scale;
+        public float yarn_ext_factor;
+        public float yarn_attn_factor;
+        public float yarn_beta_fast;
+        public float yarn_beta_slow;
+        public int yarn_orig_ctx;
+        public int type_k;
+        public int type_v;
+        public bool mul_mat_q;
+        public bool logits_all;
+        public bool embedding;
+        public bool offload_kqv;
     }
 }
