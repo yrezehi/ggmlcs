@@ -8,9 +8,4 @@ try
     Console.Write(res);
     model.Dispose();
 }
-catch (Exception e)
-{
-    var x = 3;
-}
-
-
+catch (Exception e) { }
