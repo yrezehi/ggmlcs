@@ -8,5 +8,6 @@ namespace ggmlcs.Native.Binding.Mode.Instruct
 {
     internal class Prompt
     {
+
     }
 }

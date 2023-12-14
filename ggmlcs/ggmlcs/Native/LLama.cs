@@ -6,8 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// commit 70f806b
-
 namespace ggmlcs.Native
 {
     public class LLama
@@ -31,8 +29,25 @@ namespace ggmlcs.Native
                 throw new MemberAccessException(message: "Embedding tokens were empty!");
             }
 
-            if(embeddings.Length > LLamaContextParams.n_ctx - 4){
+            if(embeddings.Length > LLamaContextParams.n_ctx){
                 throw new MemberAccessException(message: "Embedding tokens is larger than allowed context!");
+            }
+
+            int n_past = 0;
+            int n_remain = 512; // TODO: need att
+            int n_consumed = 0;
+            int n_session_consumed = 0;
+            int n_past_guidance = 0;
+            int guidance_offset = 0;
+
+            while (n_remain != 0)
+            {
+                for(int index = 0; index < embeddings.Length; index += LLamaContextParams.n_batch)
+                {
+                    int n_eval = embeddings.Length - index;
+
+                    if(n_eval)
+                }
             }
 
         }
