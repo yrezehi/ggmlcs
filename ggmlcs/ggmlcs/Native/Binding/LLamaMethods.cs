@@ -7,11 +7,12 @@ namespace ggmlcs.Native.Binding
     {
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void llama_load_model_from_file(string path, LLamaModelParams @params);
+        public static extern LLamaModel llama_load_model_from_file(string path, LLamaModelParams @params);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern void llama_backend_init(bool numa = false);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr llama_new_context_with_model(LLamaModel model);
+
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern int llama_n_ctx_train(LLamaModel model);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]

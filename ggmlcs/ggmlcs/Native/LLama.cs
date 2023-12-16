@@ -1,11 +1,7 @@
 ﻿using ggmlcs.Native.Binding;
 using ggmlcs.Native.Binding.Structs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
+// reference llama.cpp official: https://github.com/ggerganov/llama.cpp/blob/8a5be3bd5885d79ad84aadf32bb8c1a67bd43c19/examples/simple/simple.cpp#L42
 namespace ggmlcs.Native
 {
     public class LLama : IDisposable
@@ -13,7 +9,11 @@ namespace ggmlcs.Native
         private LLamaContext Context { get; set; }
         private LLamaModel Model { get; set; }
 
-        private LLamaContextParams LLamaContextParams { get; } = new LLamaContextParams();
+        private LLamaContextParams ContextParams { get; set; } = new LLamaContextParams();
+        private LLamaModelParams ModelParams { get; set; } = new LLamaModelParams();
+
+        private LLama(LLamaContext context, LLamaModel model) =>
+            (Context, Model) = (context, model);
 
         public void Run(string prompt)
         {
@@ -56,9 +56,20 @@ namespace ggmlcs.Native
 
         }
 
-        public void Initialize()
+        public static LLama CreateInstance(string path)
         {
-            LLamaMethods.llama_backend_init();
+            if (!Path.Exists(path))
+            {
+                throw new FileNotFoundException(path);
+            }
+
+            LLamaModelParams modelParams = LLamaMethods.llama_model_default_params();
+            LLamaModel model = LLamaMethods.llama_load_model_from_file(path, modelParams);
+
+            if(model == null)
+            {
+                throw new MemberAccessException(message: $"Unable to load model {path}");
+            }
 
 
         }
