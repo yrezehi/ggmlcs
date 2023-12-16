@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace ggmlcs.Native
 {
-    public class LLama
+    public class LLama : IDisposable
     {
-        private LLamaContext Context { get; }
-        private LLamaModel Model { get; }
+        private LLamaContext Context { get; set; }
+        private LLamaModel Model { get; set; }
 
         private LLamaContextParams LLamaContextParams { get; } = new LLamaContextParams();
 
@@ -51,10 +51,21 @@ namespace ggmlcs.Native
                         n_eval = LLamaContextParams.n_batch;
                     }
 
-
                 }
             }
 
+        }
+
+        public void Initialize()
+        {
+            LLamaMethods.llama_backend_init();
+
+
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }
