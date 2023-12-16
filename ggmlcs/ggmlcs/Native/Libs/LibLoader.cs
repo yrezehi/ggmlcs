@@ -7,7 +7,15 @@ namespace ggmlcs.Native.Libs
     {
         public static void LibraryLoad()
         {
-            WindowsLoader.LibraryLoad(NativeHelper.GetNativeLibraryEnvironment.LibraryPath);
+            WindowsLoader.LibraryLoad(new LibraryEnvironment
+            {
+                LibraryPath = Path.Combine(
+                        AppContext.BaseDirectory,
+                        "Native\\Runtimes",
+                        $"win-generic",
+                        $"llama.dll"),
+                OperatingSystem = "generic"
+            }.LibraryPath);
         }
     }
 }

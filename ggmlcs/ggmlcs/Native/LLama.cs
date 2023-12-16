@@ -46,7 +46,12 @@ namespace ggmlcs.Native
                 {
                     int n_eval = embeddings.Length - index;
 
-                    if(n_eval)
+                    if (n_eval > LLamaContextParams.n_batch)
+                    {
+                        n_eval = LLamaContextParams.n_batch;
+                    }
+
+
                 }
             }
 
