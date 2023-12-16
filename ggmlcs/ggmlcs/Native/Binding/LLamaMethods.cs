@@ -1,4 +1,5 @@
-﻿using ggmlcs.Native.Binding.Params;
+﻿using ggmlcs.Native.Binding.Entities;
+using ggmlcs.Native.Binding.Params;
 using System.Runtime.InteropServices;
 
 namespace ggmlcs.Native.Binding
@@ -24,6 +25,11 @@ namespace ggmlcs.Native.Binding
         public static extern int llama_token_to_piece(IntPtr context, int token);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern int llama_token_eos(LLamaModel model);
+
+        [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+        public static extern LLamaBatch llama_batch_init(int n_tokens = 512, int embd = 0, int n_seq_max = 1);
+        [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void llama_batch_add(LLamaBatch batch, LLamaToken id, LLamaPos pos, LlamaSeqId[] seq_ids, bool logits);
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern void llama_free(IntPtr context);
