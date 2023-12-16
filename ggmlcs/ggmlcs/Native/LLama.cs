@@ -1,10 +1,11 @@
 ﻿using ggmlcs.Native.Binding;
+using ggmlcs.Native.Binding.Entities;
 using ggmlcs.Native.Binding.Params;
 
 // reference llama.cpp official: https://github.com/ggerganov/llama.cpp/blob/8a5be3bd5885d79ad84aadf32bb8c1a67bd43c19/examples/simple/simple.cpp#L42
 namespace ggmlcs.Native
 {
-    public class LLama : IDisposable
+    public unsafe class LLama : IDisposable
     {
         private LLamaContext Context { get; set; }
         private LLamaModel Model { get; set; }
@@ -84,9 +85,33 @@ namespace ggmlcs.Native
 
         public string Infer(string prompt)
         {
-            List<LLamaToken> tokens = new List<LLamaToken>();
+            LLamaToken[] tokens = new LLamaToken[prompt.Length];
 
-            LLamaMethods.llama_tokenize(model, prompt, prompt.Length, tokens, ContextParams.n_ctx);
+            LLamaMethods.llama_tokenize(Model, prompt, prompt.Length, tokens, ContextParams.n_ctx);
+
+            foreach (var token in tokens)
+            {
+                LLamaMethods.llama_token_to_piece(Context, token);
+            }
+
+            LLamaBatch batch = LLamaMethods.llama_batch_init();
+
+            for (int index = 0; index < tokens.Length; index++)
+            {
+                LLamaMethods.llama_batch_add(batch, tokens[index], index, new LlamaSeqId[] { 0 }, false);
+            }
+
+            batch.logits[batch.n_tokens - 1] = (byte) 1;
+
+            int n_cur = batch.n_tokens;
+            int n_decode = 0;
+            int n_len = 32;
+
+            while (n_cur <= n_len)
+            {
+                int n_vocab = LLamaMethods.llama_n_vocab(Model);
+                int logits = 
+            }
         }
 
         public void Dispose()

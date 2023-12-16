@@ -3,7 +3,7 @@
 namespace ggmlcs.Native.Binding.Entities
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct LLamaBatch
+    public unsafe struct LLamaBatch
     {
         public int n_tokens;
 
@@ -12,7 +12,7 @@ namespace ggmlcs.Native.Binding.Entities
         public LLamaPos pos;
         public int n_seq_id;
         public LlamaSeqId seq_id;
-        public byte logits;
+        public byte* logits;
 
         public LLamaPos all_pos_0;
         public LLamaPos all_pos_1;

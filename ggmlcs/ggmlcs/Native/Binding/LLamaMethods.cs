@@ -1,5 +1,6 @@
 ﻿using ggmlcs.Native.Binding.Entities;
 using ggmlcs.Native.Binding.Params;
+using System;
 using System.Runtime.InteropServices;
 
 namespace ggmlcs.Native.Binding
@@ -18,6 +19,14 @@ namespace ggmlcs.Native.Binding
         public static extern int llama_n_ctx_train(LLamaModel model);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern int llama_n_ctx(IntPtr context);
+
+        [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int llama_n_vocab(LLamaModel model);
+
+        [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int llama_get_logits_ith(LLamaModel model);
+        [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+        public static extern float llama_get_logits_ith(LLamaContext context, int i);
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern int llama_tokenize(LLamaModel model, string text, int textLength, [Out] LLamaToken[] tokens, int numberOfMaxTokens, bool addBos = false, bool special = true);
