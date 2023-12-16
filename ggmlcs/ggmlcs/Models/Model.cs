@@ -1,7 +1,7 @@
 ﻿using ggmlcs.Native.Libs;
 using ggmlcs.Native;
-using ggmlcs.Tokenizers;
 using System.Runtime.InteropServices;
+using ggmlcs.Native.Tokenizers;
 
 namespace ggmlcs.Models
 {

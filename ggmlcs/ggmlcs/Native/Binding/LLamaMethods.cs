@@ -1,4 +1,4 @@
-﻿using ggmlcs.Native.Binding.Structs;
+﻿using ggmlcs.Native.Binding.Params;
 using System.Runtime.InteropServices;
 
 namespace ggmlcs.Native.Binding
@@ -11,7 +11,7 @@ namespace ggmlcs.Native.Binding
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern void llama_backend_init(bool numa = false);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr llama_new_context_with_model(LLamaModel model);
+        public static extern IntPtr llama_new_context_with_model(LLamaModel model, LLamaContextParams @params);
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern int llama_n_ctx_train(LLamaModel model);

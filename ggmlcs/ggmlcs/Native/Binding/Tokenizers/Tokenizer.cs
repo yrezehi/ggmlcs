@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace ggmlcs.Tokenizers
+namespace ggmlcs.Native.Binding.Tokenizers
 {
     public class Tokenizer
     {

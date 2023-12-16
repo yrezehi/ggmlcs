@@ -1,5 +1,5 @@
 ﻿using ggmlcs.Native.Binding;
-using ggmlcs.Native.Binding.Structs;
+using ggmlcs.Native.Binding.Params;
 
 // reference llama.cpp official: https://github.com/ggerganov/llama.cpp/blob/8a5be3bd5885d79ad84aadf32bb8c1a67bd43c19/examples/simple/simple.cpp#L42
 namespace ggmlcs.Native
@@ -66,12 +66,27 @@ namespace ggmlcs.Native
             LLamaModelParams modelParams = LLamaMethods.llama_model_default_params();
             LLamaModel model = LLamaMethods.llama_load_model_from_file(path, modelParams);
 
-            if(model == null)
+            if(model == nint.Zero)
             {
                 throw new MemberAccessException(message: $"Unable to load model {path}");
             }
 
+            LLamaContextParams contextParams = LLamaMethods.llama_context_default_params();
+            LLamaContext context = LLamaMethods.llama_new_context_with_model(model, contextParams);
 
+            if(context == nint.Zero)
+            {
+                throw new MemberAccessException(message: $"Unable to load context {path}");
+            }
+
+            return new LLama(context, model);
+        }
+
+        public string Infer(string prompt)
+        {
+            List<LLamaToken> tokens = new List<LLamaToken>();
+
+            LLamaMethods.llama_tokenize(model, prompt, prompt.Length, tokens, ContextParams.n_ctx);
         }
 
         public void Dispose()
