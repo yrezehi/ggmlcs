@@ -4,14 +4,15 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Native\Runtimes\win-x64\llama.dll" />
+    <None Remove="Native\Runtimes\windows\llama.dll" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Native\Runtimes\win-x64\llama.dll">
+    <Content Include="Native\Runtimes\windows\llama.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

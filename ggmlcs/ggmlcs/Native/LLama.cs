@@ -1,6 +1,7 @@
 ﻿using ggmlcs.Native.Binding;
 using ggmlcs.Native.Binding.Entities;
 using ggmlcs.Native.Binding.Params;
+using System.Linq;
 
 // reference llama.cpp official: https://github.com/ggerganov/llama.cpp/blob/8a5be3bd5885d79ad84aadf32bb8c1a67bd43c19/examples/simple/simple.cpp#L42
 namespace ggmlcs.Native
@@ -110,7 +111,12 @@ namespace ggmlcs.Native
             while (n_cur <= n_len)
             {
                 int n_vocab = LLamaMethods.llama_n_vocab(Model);
-                int logits = 
+                float logits = LLamaMethods.llama_get_logits_ith(Context, batch.n_tokens - 1);
+
+                List<LLamaTokenData> candidates = new List<LLamaTokenData>();
+
+                for token_id in range(n_vocab):
+                    candidates.append(llama_token_data(token_id, logits[token_id], 0.0))
             }
         }
 
