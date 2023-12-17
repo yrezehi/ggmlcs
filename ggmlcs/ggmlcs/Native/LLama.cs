@@ -92,7 +92,7 @@ namespace ggmlcs.Native
 
             foreach (var token in tokens)
             {
-                LLamaMethods.llama_token_to_piece(Context, token);
+                Console.Write(LLamaMethods.llama_token_to_piece(Context, token));
             }
 
             LLamaBatch batch = LLamaMethods.llama_batch_init();
@@ -111,12 +111,13 @@ namespace ggmlcs.Native
             while (n_cur <= n_len)
             {
                 int n_vocab = LLamaMethods.llama_n_vocab(Model);
-                float logits = LLamaMethods.llama_get_logits_ith(Context, batch.n_tokens - 1);
+                float* logits = LLamaMethods.llama_get_logits_ith(Context, batch.n_tokens - 1);
 
                 List<LLamaTokenData> candidates = new List<LLamaTokenData>();
 
-                for token_id in range(n_vocab):
-                    candidates.append(llama_token_data(token_id, logits[token_id], 0.0))
+                for (LLamaToken token = 0; token < n_vocab; token++) {
+                    candidates.Add(new LLamaTokenData() { token, logits[token], 0.0f);
+                }
             }
         }
 

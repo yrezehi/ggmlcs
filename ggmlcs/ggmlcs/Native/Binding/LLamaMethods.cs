@@ -5,9 +5,8 @@ using System.Runtime.InteropServices;
 
 namespace ggmlcs.Native.Binding
 {
-    public static class LLamaMethods
+    public static unsafe class LLamaMethods
     {
-
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern LLamaModel llama_load_model_from_file(string path, LLamaModelParams @params);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
@@ -26,7 +25,7 @@ namespace ggmlcs.Native.Binding
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern int llama_get_logits_ith(LLamaModel model);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
-        public static extern float llama_get_logits_ith(LLamaContext context, int i);
+        public static extern float* llama_get_logits_ith(LLamaContext context, int i);
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern int llama_tokenize(LLamaModel model, string text, int textLength, [Out] LLamaToken[] tokens, int numberOfMaxTokens, bool addBos = false, bool special = true);
