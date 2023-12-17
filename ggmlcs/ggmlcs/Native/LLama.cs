@@ -1,9 +1,9 @@
 ﻿using ggmlcs.Native.Binding;
 using ggmlcs.Native.Binding.Entities;
 using ggmlcs.Native.Binding.Params;
-using System.Linq;
 
 // reference llama.cpp official: https://github.com/ggerganov/llama.cpp/blob/8a5be3bd5885d79ad84aadf32bb8c1a67bd43c19/examples/simple/simple.cpp#L42
+
 namespace ggmlcs.Native
 {
     public unsafe class LLama : IDisposable
@@ -95,9 +95,6 @@ namespace ggmlcs.Native
             LLamaMethods.llama_backend_free();
         }
 
-        public void Dispose()
-        {
-          
-        }
+        public void Dispose() { throw new NotImplementedException(); }
     }
 }
