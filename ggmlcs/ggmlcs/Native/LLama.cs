@@ -1,6 +1,7 @@
 ﻿using ggmlcs.Native.Binding;
 using ggmlcs.Native.Binding.Entities;
 using ggmlcs.Native.Binding.Params;
+using ggmlcs.Native.Libs;
 
 // reference llama.cpp official: https://github.com/ggerganov/llama.cpp/blob/8a5be3bd5885d79ad84aadf32bb8c1a67bd43c19/examples/simple/simple.cpp#L42
 
@@ -23,6 +24,8 @@ namespace ggmlcs.Native
             {
                 throw new FileNotFoundException(path);
             }
+
+            LibLoader.LibraryLoad();
 
             LLamaModelParams modelParams = LLamaMethods.llama_model_default_params();
             LLamaModel model = LLamaMethods.llama_load_model_from_file(path, modelParams);
