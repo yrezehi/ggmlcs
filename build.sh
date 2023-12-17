@@ -13,6 +13,10 @@ display_help() {
     echo
 }
 
+colorful() {
+    echo -e "${BLUE_TEXT_COLOR}$1${RESET_TEXT_COLOR}"
+}
+
 spinning_process() {
     if [[ -z "$@" ]]; then
         echo -e "no process was provided for function $FUNCNAME!";
@@ -29,10 +33,10 @@ spinning_process() {
 
 print_instruction() {
     if [[ "$#" -eq 1 ]]; then
-        echo -e "\n[$1]\n"
+        colorful "\n[$1]\n"
         return 1;
     fi
-	echo -e "\n[$1]\n"
+	colorful "\n[$1]\n"
 	# execute the command without the first parameter
 	${@:2}
 }
