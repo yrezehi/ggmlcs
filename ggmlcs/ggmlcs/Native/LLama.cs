@@ -113,11 +113,13 @@ namespace ggmlcs.Native
                 int n_vocab = LLamaMethods.llama_n_vocab(Model);
                 float* logits = LLamaMethods.llama_get_logits_ith(Context, batch.n_tokens - 1);
 
-                List<LLamaTokenData> candidates = new List<LLamaTokenData>();
+                LLamaTokenData[] candidates = new LLamaTokenData[n_vocab];
 
                 for (LLamaToken token = 0; token < n_vocab; token++) {
-                    candidates.Add(new LLamaTokenData() { token, logits[token], 0.0f);
+                    candidates[token] = new LLamaTokenData(token, logits[token], 0.0f);
                 }
+
+                LLamaTokenDataArray candidates_p = new LLamaTokenDataArray(candidates, candidates.Length, false);
             }
         }
 

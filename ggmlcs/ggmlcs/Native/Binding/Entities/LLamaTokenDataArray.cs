@@ -10,8 +10,15 @@ namespace ggmlcs.Native.Binding.Entities
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct LLamaTokenDataArray
     {
-        public LLamaTokenData* data;
+        public Memory<LLamaTokenData> data;
         public ulong size;
         public bool sorted;
+
+        public LLamaTokenDataArray(LLamaTokenData[] data, int size, bool sorted)
+        {
+            this.data = data;
+            this.size = (ulong) size;
+            this.sorted = sorted;
+        }
     }
 }
