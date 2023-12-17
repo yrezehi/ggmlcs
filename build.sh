@@ -1,5 +1,18 @@
 #!/bin/bash
 
+GREEN_TEXT_COLOR='\e[32m'
+BLUE_TEXT_COLOR='\e[34m'
+RESET_TEXT_COLOR='\e[0m'
+
+BOLD_TEXT_FORMAT='\e[1m'
+RESET_TEXT_FORMAT='\e[0m'
+
+display_help() {
+    echo
+    echo "Usage: ./build [option...] [params...]" >&2
+    echo
+}
+
 spinning_process() {
     if [[ -z "$@" ]]; then
         echo -e "no process was provided for function $FUNCNAME!";
