@@ -17,47 +17,6 @@ namespace ggmlcs.Native
         private LLama(LLamaContext context, LLamaModel model) =>
             (Context, Model) = (context, model);
 
-        public void Run(string prompt)
-        {
-
-            if (string.IsNullOrEmpty(prompt)) {
-                throw new ArgumentException(message: "No prompt was provided!");
-            }
-
-            var embeddings = new LLamaToken[prompt.Length + 1];
-            LLamaMethods.llama_tokenize(Model, prompt, prompt.Length, embeddings, embeddings.Length);
-
-            if(embeddings.Length == 0) {
-                throw new MemberAccessException(message: "Embedding tokens were empty!");
-            }
-
-            if(embeddings.Length > LLamaContextParams.n_ctx){
-                throw new MemberAccessException(message: "Embedding tokens is larger than allowed context!");
-            }
-
-            int n_past = 0;
-            int n_remain = 512; // TODO: need att
-            int n_consumed = 0;
-            int n_session_consumed = 0;
-            int n_past_guidance = 0;
-            int guidance_offset = 0;
-
-            while (n_remain != 0)
-            {
-                for(int index = 0; index < embeddings.Length; index += LLamaContextParams.n_batch)
-                {
-                    int n_eval = embeddings.Length - index;
-
-                    if (n_eval > LLamaContextParams.n_batch)
-                    {
-                        n_eval = LLamaContextParams.n_batch;
-                    }
-
-                }
-            }
-
-        }
-
         public static LLama CreateInstance(string path)
         {
             if (!Path.Exists(path))
@@ -84,7 +43,7 @@ namespace ggmlcs.Native
             return new LLama(context, model);
         }
 
-        public string Infer(string prompt)
+        public void Infer(string prompt)
         {
             LLamaToken[] tokens = new LLamaToken[prompt.Length];
 
@@ -105,7 +64,6 @@ namespace ggmlcs.Native
             batch.logits[batch.n_tokens - 1] = (byte) 1;
 
             int n_cur = batch.n_tokens;
-            int n_decode = 0;
             int n_len = 32;
 
             while (n_cur <= n_len)
@@ -120,12 +78,26 @@ namespace ggmlcs.Native
                 }
 
                 LLamaTokenDataArray candidates_p = new LLamaTokenDataArray(candidates, candidates.Length, false);
+
+                LLamaToken token_id = LLamaMethods.llama_sample_token_greedy(Context, candidates_p);
+
+                LLamaMethods.llama_batch_add(batch, token_id, n_cur, new LlamaSeqId [] { 0 }, true);
+
+                n_cur += 1;
             }
+
+            LLamaMethods.llama_batch_free(batch);
+
+            LLamaMethods.llama_free(Context);
+            LLamaMethods.llama_free_model(Context);
+
+            LLamaMethods.llama_free_model(Model);
+            LLamaMethods.llama_backend_free();
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+          
         }
     }
 }
