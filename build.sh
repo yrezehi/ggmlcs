@@ -57,9 +57,8 @@ build_llama() {
 post_llama_build() {
     cp "$llama_project_directory/build/bin/Release/llama.dll" $build_directory
     cp "$llama_project_directory/convert-pth-to-ggml.py" $build_directory
-    cp "$llama_project_directory/build/bin/Release/quantize.exe"
-    cp "ll"
-	echo "not finished!"
+    cp "$llama_project_directory/build/bin/Release/quantize.exe" $build_directory
+    cp "$llama_project_directory/quantize.py" $build_directory
 }
 
 root_directory="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
@@ -83,3 +82,9 @@ print_instruction "BUILD DIRECTORY" echo "$build_directory"
 print_instruction "BUILD LLAMA.CPP PROJECT"
 
 build_llama
+
+print_instruction "POST BUILD LLAMA.CPP PROJECT"
+
+post_llama_build
+
+print_instruction "ALL GOOD"
