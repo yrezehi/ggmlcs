@@ -55,13 +55,13 @@ build_llama() {
 # copies quantize.exe to build
 # copies quantize.py to build
 post_llama_build() {
-    cp "$llama_project_directory/build/bin/Release/llama.dll" $build_directory
-    cp "$llama_project_directory/convert-pth-to-ggml.py" $build_directory
-    cp "$llama_project_directory/build/bin/Release/quantize.exe" $build_directory
-    cp "$llama_project_directory/quantize.py" $build_directory
+    cp "$llama_project_directory/build/bin/$build_type/llama.dll" $root_directory/ggmlcs/ggmlcs/Native/Runtimes/windows
+    cp "$llama_project_directory/build/bin/$build_type/quantize.exe" $build_directory
 }
 
 root_directory="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+build_type="Release"
 
 print_instruction "WORKING DIRECTORY" echo "$root_directory"
  
