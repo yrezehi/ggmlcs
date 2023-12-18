@@ -41,23 +41,24 @@ print_instruction() {
 	${@:2}
 }
 
-# expects cwd to be llama.cpp/build
-
-build_llama_cpp() {        
+build_llama() {        
 	if ! [ -x "$(command -v cmake)" ]; then
 	  print_instruction "FAILED" echo "Error: cmake is not installed"
 	  exit 1
 	fi
 	# build llama.cpp
-	cmake -DBUILD_SHARED_LIBS=ON .. && cmake --build .
+	( cd $llama_project_directory/build && cmake -DBUILD_SHARED_LIBS=ON .. && cmake --build . )
 }
-
 
 # copies libllama to build folder
 # copies convert-pth-to-ggml.py to build folder
 # copies quantize.exe to build
 # copies quantize.py to build
-pre_llama_cpp_build() {
+post_llama_build() {
+    cp "$llama_project_directory/build/bin/Release/llama.dll" $build_directory
+    cp "$llama_project_directory/convert-pth-to-ggml.py" $build_directory
+    cp "$llama_project_directory/build/bin/Release/quantize.exe"
+    cp "ll"
 	echo "not finished!"
 }
 
@@ -71,10 +72,14 @@ if [ -d "$build_directory" ]; then
 	rm -rf $build_directory
 fi
 
+llama_project_directory=$root_directory/ggmlcs/llama.cpp
+
 print_instruction "RE/CREATE BUILD DIRECTORY"
 
 spinning_process mkdir $build_directory
 
 print_instruction "BUILD DIRECTORY" echo "$build_directory"
-  
-echo -e "\n[BUILD FINISHED]"
+
+print_instruction "BUILD LLAMA.CPP PROJECT"
+
+build_llama
