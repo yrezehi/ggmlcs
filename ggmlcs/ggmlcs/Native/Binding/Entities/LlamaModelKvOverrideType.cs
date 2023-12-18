@@ -8,8 +8,8 @@ namespace ggmlcs.Native.Binding.Entities
 {
     public enum LlamaModelKvOverrideType
     {
-        Int = 0,
-        Float = 1,
-        Bool = 2
+        LLAMA_KV_OVERRIDE_INT = 0,
+        LLAMA_KV_OVERRIDE_FLOAT = 1,
+        LLAMA_KV_OVERRIDE_BOOL = 2,
     }
 }

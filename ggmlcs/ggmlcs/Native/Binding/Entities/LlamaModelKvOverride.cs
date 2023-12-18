@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 
 namespace ggmlcs.Native.Binding.Entities
 {
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct LlamaModelKvOverride
     {
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 128)]
-        public byte[] key;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        public string key;
 
         public LlamaModelKvOverrideType tag;
 
+        [MarshalAs(UnmanagedType.Struct)]
         public LlamaModelKvOverrideValue value;
     }
 }

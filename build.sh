@@ -61,7 +61,7 @@ post_llama_build() {
 
 root_directory="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
-build_type="Release"
+build_type="Debug"
 
 print_instruction "WORKING DIRECTORY" echo "$root_directory"
  
