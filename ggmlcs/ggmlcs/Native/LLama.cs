@@ -54,7 +54,9 @@ namespace ggmlcs.Native
 
             foreach (var token in tokens)
             {
-                Console.Write(LLamaMethods.llama_token_to_piece(Context, token));
+                List<char> result = new List<char>(8);
+
+                Console.Write(LLamaMethods.llama_token_to_piece(Model, token, result.ToArray(), result.Count));
             }
 
             LLamaBatch batch = LLamaMethods.llama_batch_init();
