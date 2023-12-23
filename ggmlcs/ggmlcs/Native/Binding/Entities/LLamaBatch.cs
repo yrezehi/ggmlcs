@@ -7,11 +7,11 @@ namespace ggmlcs.Native.Binding.Entities
     {
         public int n_tokens;
 
-        public LLamaToken* token;
-        public float* embd;
-        public LLamaPos* pos;
-        public int* n_seq_id;
-        public LlamaSeqId** seq_id;
+        public LLamaToken token;
+        public float embd;
+        public LLamaPos pos;
+        public int n_seq_id;
+        public LlamaSeqId seq_id;
         public byte* logits;
 
         public LLamaPos all_pos_0;

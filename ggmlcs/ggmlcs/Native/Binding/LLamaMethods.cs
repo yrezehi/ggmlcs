@@ -37,7 +37,7 @@ namespace ggmlcs.Native.Binding
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern LLamaBatch llama_batch_init(int n_tokens = 512, int embd = 0, int n_seq_max = 1);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void llama_batch_add(ref LLamaBatch batch, LLamaToken id, LLamaPos pos, LlamaSeqId[] seq_ids, bool logits);
+        public static extern void llama_batch_add(LLamaBatch batch, LLamaToken id, LLamaPos pos, List<LlamaSeqId> seq_ids, bool logits);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern void llama_batch_free(LLamaBatch batch);
 

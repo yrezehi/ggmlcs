@@ -63,7 +63,7 @@ namespace ggmlcs.Native
 
             for (int index = 0; index < tokens.Length; index++)
             {
-                LLamaMethods.llama_batch_add(ref batch, tokens[index], index, new LlamaSeqId[] { 0 }, false);
+                LLamaMethods.llama_batch_add(batch, tokens[index], index, new List<LlamaSeqId>{ 0 }, false);
             }
 
             batch.logits[batch.n_tokens - 1] = (byte) 1;
@@ -86,7 +86,7 @@ namespace ggmlcs.Native
 
                 LLamaToken token_id = LLamaMethods.llama_sample_token_greedy(Context, candidates_p);
 
-                LLamaMethods.llama_batch_add(ref batch, token_id, n_cur, new LlamaSeqId[] { 0 }, true);
+                LLamaMethods.llama_batch_add(batch, token_id, n_cur, new List<LlamaSeqId> { 0 }, true);
 
                 n_cur += 1;
             }
