@@ -2,6 +2,8 @@
 using ggmlcs.Native.Binding.Entities;
 using ggmlcs.Native.Binding.Params;
 using ggmlcs.Native.Libs;
+using System;
+using System.Runtime.InteropServices;
 
 // reference llama.cpp official: https://github.com/ggerganov/llama.cpp/blob/8a5be3bd5885d79ad84aadf32bb8c1a67bd43c19/examples/simple/simple.cpp#L42
 
@@ -63,7 +65,9 @@ namespace ggmlcs.Native
 
             for (int index = 0; index < tokens.Length; index++)
             {
-                LLamaMethods.llama_batch_add(batch, tokens[index], index, new List<LlamaSeqId>{ 0 }, false);
+                IntPtr seqIdsPtr = MarshalSeqIds(new List<LlamaSeqId>());
+                LLamaMethods.llama_batch_add(ref batch, tokens[index], index, seqIdsPtr, false);
+                Marshal.FreeHGlobal(seqIdsPtr);
             }
 
             batch.logits[batch.n_tokens - 1] = (byte) 1;
@@ -86,7 +90,9 @@ namespace ggmlcs.Native
 
                 LLamaToken token_id = LLamaMethods.llama_sample_token_greedy(Context, candidates_p);
 
-                LLamaMethods.llama_batch_add(batch, token_id, n_cur, new List<LlamaSeqId> { 0 }, true);
+                IntPtr seqIdsPtr = MarshalSeqIds(new List<LlamaSeqId>());
+                LLamaMethods.llama_batch_add(ref batch, token_id, n_cur, seqIdsPtr, true);
+                Marshal.FreeHGlobal(seqIdsPtr);
 
                 n_cur += 1;
             }
@@ -98,6 +104,20 @@ namespace ggmlcs.Native
 
             LLamaMethods.llama_free_model(Model);
             LLamaMethods.llama_backend_free();
+        }
+
+        public static IntPtr MarshalSeqIds(List<LlamaSeqId> seqIds)
+        {
+            int sizeOfSeqId = Marshal.SizeOf<LlamaSeqId>();
+            IntPtr seqIdsPtr = Marshal.AllocHGlobal(sizeOfSeqId * seqIds.Count);
+
+            for (int i = 0; i < seqIds.Count; i++)
+            {
+                // Copy each element of seqIds to the memory pointed by seqIdsPtr
+                Marshal.StructureToPtr(seqIds[i], seqIdsPtr + i * sizeOfSeqId, false);
+            }
+
+            return seqIdsPtr;
         }
 
         public void Dispose() { throw new NotImplementedException(); }
