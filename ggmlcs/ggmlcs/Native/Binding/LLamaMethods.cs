@@ -67,5 +67,8 @@ namespace ggmlcs.Native.Binding
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern LLamaToken llama_sample_token_greedy(LLamaContext context, ref LLamaTokenDataArray candidates);
+
+        [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void llama_sample_temperature(LLamaContext context, LLamaTokenDataArray candidates, float temp);
     }
 }

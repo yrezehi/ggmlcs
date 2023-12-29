@@ -48,8 +48,11 @@ namespace ggmlcs.Native
 
             LLamaContextParams contextParams = LLamaMethods.llama_context_default_params();
 
+            contextParams.seed = 1234;
             contextParams.n_ctx = 2048;
+
             contextParams.n_threads_batch = 8;
+            contextParams.n_threads_batch = 64;
 
             LLamaContext context = LLamaMethods.llama_new_context_with_model(model, contextParams);
 
@@ -120,14 +123,19 @@ namespace ggmlcs.Native
 
                 if(result < 0)
                 {
-
+                    Array.Resize(ref buffer, -result);
+                    LLamaMethods.llama_token_to_piece(Model, token_id, buffer, buffer.Length);
+                    result = -result;
+                } else
+                {
+                    Array.Resize(ref buffer, result);
                 }
 
                 string toReturn = new(buffer, 0, result);
                 byte[] dataAsWindows1252 = Encoding.UTF8.GetBytes(toReturn);
 
                 string correctlyInterpretedString = Encoding.UTF8.GetString(dataAsWindows1252);
-                Console.WriteLine(correctlyInterpretedString);
+                Console.Write(correctlyInterpretedString);
 
                 batch.n_tokens = 0;
 
