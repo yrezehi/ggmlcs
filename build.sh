@@ -47,7 +47,7 @@ build_llama() {
 	  exit 1
 	fi
 	# build llama.cpp
-	( cd $llama_project_directory/build && cmake -DLLAMA_BLAS=ON -DLLAMA_BLAS_VENDOR=OpenBLAS .. && cmake --build . )
+	( cd $llama_project_directory/build && cmake -DBUILD_SHARED_LIBS=ON -DLLAMA_BLAS=ON -DLLAMA_BLAS_VENDOR=OpenBLAS .. && cmake --build . --config Release )
 }
 
 # copies libllama to build folder

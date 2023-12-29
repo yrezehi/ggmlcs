@@ -101,7 +101,7 @@ namespace ggmlcs.Native
             while (n_cur <= n_len)
             {
                 int n_vocab = LLamaMethods.llama_n_vocab(Model);
-                float* logits = LLamaMethods.llama_get_logits_ith(Context, batch.n_tokens);
+                float* logits = LLamaMethods.llama_get_logits_ith(Context, batch.n_tokens - 1);
 
                 LLamaTokenData[] candidates = new LLamaTokenData[n_vocab];
 
