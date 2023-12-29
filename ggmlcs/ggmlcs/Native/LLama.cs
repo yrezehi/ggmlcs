@@ -26,7 +26,7 @@ namespace ggmlcs.Native
 
         public static LLama CreateInstance(string path)
         {
-            if (!Path.Exists(path))
+            if (!File.Exists(path))
             {
                 throw new FileNotFoundException(path);
             }
@@ -44,8 +44,11 @@ namespace ggmlcs.Native
             }
 
             LLamaContextParams contextParams = LLamaMethods.llama_context_default_params();
-            contextParams.n_ctx = 3000;
-            contextParams.n_batch = 16;
+
+            contextParams.seed = 1234;
+            contextParams.n_ctx = 2048;
+            contextParams.n_threads_batch = 8;
+
             LLamaContext context = LLamaMethods.llama_new_context_with_model(model, contextParams);
 
             if (context == nint.Zero)
@@ -58,7 +61,7 @@ namespace ggmlcs.Native
 
         public void Infer(string prompt)
         {
-            LLamaToken[] tokens = new LLamaToken[prompt.Length + 1];
+            LLamaToken[] tokens = new LLamaToken[prompt.Length];
             int tokensSize = LLamaMethods.llama_tokenize(Model, prompt, prompt.Length, tokens, tokens.Length);
             Array.Resize(ref tokens, tokensSize);
 
@@ -77,7 +80,7 @@ namespace ggmlcs.Native
                 throw new MemberAccessException(message: $"KV Cache is not big enough!");
             }
 
-            LLamaBatch batch = LLamaMethods.llama_batch_init(tokens.Length, 0, 1);
+            LLamaBatch batch = LLamaMethods.llama_batch_init(512, 0, 1);
 
             for (int index = 0; index < tokens.Length; index++)
             {
