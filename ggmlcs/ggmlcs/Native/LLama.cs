@@ -4,6 +4,7 @@ using ggmlcs.Native.Binding.Params;
 using ggmlcs.Native.Libs;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Unicode;
@@ -47,7 +48,6 @@ namespace ggmlcs.Native
 
             LLamaContextParams contextParams = LLamaMethods.llama_context_default_params();
 
-            contextParams.seed = 1234;
             contextParams.n_ctx = 2048;
             contextParams.n_threads_batch = 8;
 
@@ -114,9 +114,21 @@ namespace ggmlcs.Native
 
                 LLamaToken token_id = LLamaMethods.llama_sample_token_greedy(Context, ref candidates_p);
 
+                if (token_id == LLamaMethods.llama_token_eos(Model) || n_cur == n_len)
+                {
+                    break;
+                }
+
+                batch.n_tokens = 0;
+
                 LLamaMethods.llama_batch_add(ref batch, token_id, n_cur, new[] { 0 }, true);
 
                 n_cur += 1;
+
+                if (LLamaMethods.llama_decode(Context, batch) != 0)
+                {
+                    throw new MemberAccessException(message: $"Failed to decode batch!");
+                }
             }
 
             LLamaMethods.llama_batch_free(batch);
