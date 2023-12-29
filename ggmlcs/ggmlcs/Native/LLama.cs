@@ -3,6 +3,7 @@ using ggmlcs.Native.Binding.Entities;
 using ggmlcs.Native.Binding.Params;
 using ggmlcs.Native.Libs;
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 // reference llama.cpp official: https://github.com/ggerganov/llama.cpp/blob/8a5be3bd5885d79ad84aadf32bb8c1a67bd43c19/examples/simple/simple.cpp#L42
@@ -29,6 +30,8 @@ namespace ggmlcs.Native
 
             LibLoader.LibraryLoad();
 
+            LLamaMethods.llama_backend_init();
+
             LLamaModelParams modelParams = LLamaMethods.llama_model_default_params();
             LLamaModel model = LLamaMethods.llama_load_model_from_file(path, modelParams);
 
@@ -50,35 +53,46 @@ namespace ggmlcs.Native
 
         public void Infer(string prompt)
         {
-            LLamaToken[] tokens = new LLamaToken[prompt.Length];
+            LLamaToken[] tokens = new LLamaToken[prompt.Length + 1];
+            LLamaMethods.llama_tokenize(Model, prompt, prompt.Length, tokens, tokens.Length);
 
-            LLamaMethods.llama_tokenize(Model, prompt, prompt.Length, tokens, ContextParams.n_ctx);
+            int n_len = 32;
+
+            int n_ctx = LLamaMethods.llama_n_ctx(Context);
+            int n_kv_req = tokens.Length + (n_len - tokens.Length);
+
+            if (n_kv_req > n_ctx)
+            {
+                throw new MemberAccessException(message: $"KV Cache is not big enough!");
+            }
 
             foreach (var token in tokens)
             {
-                List<char> result = new List<char>(8);
-
-                Console.Write(LLamaMethods.llama_token_to_piece(Model, token, result.ToArray(), result.Count));
+                char[] buffer = new char[8];
+                Console.Error.Write(LLamaMethods.llama_token_to_piece(Model, token, buffer.ToArray(), buffer.Length));
             }
 
             LLamaBatch batch = LLamaMethods.llama_batch_init();
 
             for (int index = 0; index < tokens.Length; index++)
             {
-                IntPtr seqIdsPtr = MarshalSeqIds(new List<LlamaSeqId>());
-                LLamaMethods.llama_batch_add(ref batch, tokens[index], index, seqIdsPtr, false);
-                Marshal.FreeHGlobal(seqIdsPtr);
+                LLamaMethods.llama_batch_add(ref batch, tokens[index], index, new[] { 0 }, false);
             }
 
-            batch.logits[batch.n_tokens - 1] = (byte) 1;
+            batch.logits[batch.n_tokens] = (byte) 1;
+
+            if (LLamaMethods.llama_decode(ctx, batch) != 0)
+            {
+                LOG_TEE("%s: llama_decode() failed\n", __func__);
+                return 1;
+            }
 
             int n_cur = batch.n_tokens;
-            int n_len = 32;
 
             while (n_cur <= n_len)
             {
                 int n_vocab = LLamaMethods.llama_n_vocab(Model);
-                float* logits = LLamaMethods.llama_get_logits_ith(Context, batch.n_tokens - 1);
+                float* logits = LLamaMethods.llama_get_logits_ith(Context, batch.n_tokens);
 
                 LLamaTokenData[] candidates = new LLamaTokenData[n_vocab];
 
@@ -90,9 +104,7 @@ namespace ggmlcs.Native
 
                 LLamaToken token_id = LLamaMethods.llama_sample_token_greedy(Context, candidates_p);
 
-                IntPtr seqIdsPtr = MarshalSeqIds(new List<LlamaSeqId>());
-                LLamaMethods.llama_batch_add(ref batch, token_id, n_cur, seqIdsPtr, true);
-                Marshal.FreeHGlobal(seqIdsPtr);
+                LLamaMethods.llama_batch_add(ref batch, token_id, n_cur, new[] { 0 }, true);
 
                 n_cur += 1;
             }
@@ -104,20 +116,6 @@ namespace ggmlcs.Native
 
             LLamaMethods.llama_free_model(Model);
             LLamaMethods.llama_backend_free();
-        }
-
-        public static IntPtr MarshalSeqIds(List<LlamaSeqId> seqIds)
-        {
-            int sizeOfSeqId = Marshal.SizeOf<LlamaSeqId>();
-            IntPtr seqIdsPtr = Marshal.AllocHGlobal(sizeOfSeqId * seqIds.Count);
-
-            for (int i = 0; i < seqIds.Count; i++)
-            {
-                // Copy each element of seqIds to the memory pointed by seqIdsPtr
-                Marshal.StructureToPtr(seqIds[i], seqIdsPtr + i * sizeOfSeqId, false);
-            }
-
-            return seqIdsPtr;
         }
 
         public void Dispose() { throw new NotImplementedException(); }

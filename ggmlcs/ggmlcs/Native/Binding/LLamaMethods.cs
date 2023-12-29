@@ -23,8 +23,6 @@ namespace ggmlcs.Native.Binding
         public static extern int llama_n_vocab(LLamaModel model);
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int llama_get_logits_ith(LLamaModel model);
-        [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern float* llama_get_logits_ith(LLamaContext context, int i);
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
@@ -42,13 +40,11 @@ namespace ggmlcs.Native.Binding
             batch.pos[batch.n_tokens] = pos;
             batch.n_seq_id[batch.n_tokens] = seqIds.Length;
 
-            var currentSeqIdArray = &batch.seq_id[batch.n_tokens];
-            for (int i = 0; i < seqIds.Length; i++)
-            {
-                currentSeqIdArray[i] = seqIds[i];
-            }
+            for (var i = 0; i < seqIds.Length; i++)
+                batch.seq_id[batch.n_tokens][i] = seqIds[i];
 
-            batch.logits[batch.n_tokens] = (byte)(logits ? 1 : 0);
+            batch.logits[batch.n_tokens] = Convert.ToByte(logits);
+
             batch.n_tokens++;
         }
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]

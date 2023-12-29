@@ -5,7 +5,7 @@ namespace ggmlcs.Native.Binding.Entities
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct LLamaBatch
     {
-        public int* n_tokens;
+        public int n_tokens;
 
         public LLamaToken* token;
         public float* embd;
