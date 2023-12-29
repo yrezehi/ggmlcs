@@ -18,8 +18,8 @@ namespace ggmlcs.Native
         private LLamaContextParams ContextParams { get; set; } = new LLamaContextParams();
         private LLamaModelParams ModelParams { get; set; } = new LLamaModelParams();
 
-        private LLama(LLamaContext context, LLamaModel model) =>
-            (Context, Model) = (context, model);
+        private LLama(LLamaContext context, LLamaModel model, LLamaContextParams contextParams) =>
+            (Context, Model, ContextParams) = (context, model, contextParams);
 
         public static LLama CreateInstance(string path)
         {
@@ -48,13 +48,14 @@ namespace ggmlcs.Native
                 throw new MemberAccessException(message: $"Unable to load context {path}");
             }
 
-            return new LLama(context, model);
+            return new LLama(context, model, contextParams);
         }
 
         public void Infer(string prompt)
         {
             LLamaToken[] tokens = new LLamaToken[prompt.Length + 1];
-            LLamaMethods.llama_tokenize(Model, prompt, prompt.Length, tokens, tokens.Length);
+            int tokensSize = LLamaMethods.llama_tokenize(Model, prompt, prompt.Length, tokens, tokens.Length);
+            Array.Resize(ref tokens, tokensSize);
 
             int n_len = 32;
 
@@ -79,12 +80,11 @@ namespace ggmlcs.Native
                 LLamaMethods.llama_batch_add(ref batch, tokens[index], index, new[] { 0 }, false);
             }
 
-            batch.logits[batch.n_tokens] = (byte) 1;
+            batch.logits[batch.n_tokens - 1] = (byte) 1;
 
-            if (LLamaMethods.llama_decode(ctx, batch) != 0)
+            if (LLamaMethods.llama_decode(Context, batch) != 0)
             {
-                LOG_TEE("%s: llama_decode() failed\n", __func__);
-                return 1;
+                throw new MemberAccessException(message: $"Failed to decode batch!");
             }
 
             int n_cur = batch.n_tokens;

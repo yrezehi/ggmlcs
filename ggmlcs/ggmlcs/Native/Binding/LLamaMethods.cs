@@ -31,6 +31,8 @@ namespace ggmlcs.Native.Binding
         public static extern int llama_token_to_piece(LLamaModel model, LLamaToken token, char[] buffer, int length);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern int llama_token_eos(LLamaModel model);
+        [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int llama_decode(LLamaContext context, LLamaBatch batch);
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern LLamaBatch llama_batch_init(int n_tokens = 512, int embd = 0, int n_seq_max = 1);
