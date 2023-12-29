@@ -5,6 +5,9 @@ using ggmlcs.Native.Libs;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.Unicode;
+using System.Threading.Tasks;
 
 // reference llama.cpp official: https://github.com/ggerganov/llama.cpp/blob/8a5be3bd5885d79ad84aadf32bb8c1a67bd43c19/examples/simple/simple.cpp#L42
 
@@ -35,15 +38,17 @@ namespace ggmlcs.Native
             LLamaModelParams modelParams = LLamaMethods.llama_model_default_params();
             LLamaModel model = LLamaMethods.llama_load_model_from_file(path, modelParams);
 
-            if(model == nint.Zero)
+            if (model == nint.Zero)
             {
                 throw new MemberAccessException(message: $"Unable to load model {path}");
             }
 
             LLamaContextParams contextParams = LLamaMethods.llama_context_default_params();
+            contextParams.n_ctx = 3000;
+            contextParams.n_batch = 16;
             LLamaContext context = LLamaMethods.llama_new_context_with_model(model, contextParams);
 
-            if(context == nint.Zero)
+            if (context == nint.Zero)
             {
                 throw new MemberAccessException(message: $"Unable to load context {path}");
             }
@@ -57,6 +62,11 @@ namespace ggmlcs.Native
             int tokensSize = LLamaMethods.llama_tokenize(Model, prompt, prompt.Length, tokens, tokens.Length);
             Array.Resize(ref tokens, tokensSize);
 
+            LLamaToken[] newValues = new LLamaToken[tokens.Length + 1];
+            newValues[0] = 1;
+            Array.Copy(tokens, 0, newValues, 1, tokens.Length);
+            tokens = newValues;
+
             int n_len = 32;
 
             int n_ctx = LLamaMethods.llama_n_ctx(Context);
@@ -67,20 +77,14 @@ namespace ggmlcs.Native
                 throw new MemberAccessException(message: $"KV Cache is not big enough!");
             }
 
-            foreach (var token in tokens)
-            {
-                char[] buffer = new char[8];
-                Console.Error.Write(LLamaMethods.llama_token_to_piece(Model, token, buffer.ToArray(), buffer.Length));
-            }
-
-            LLamaBatch batch = LLamaMethods.llama_batch_init();
+            LLamaBatch batch = LLamaMethods.llama_batch_init(tokens.Length, 0, 1);
 
             for (int index = 0; index < tokens.Length; index++)
             {
                 LLamaMethods.llama_batch_add(ref batch, tokens[index], index, new[] { 0 }, false);
             }
 
-            batch.logits[batch.n_tokens - 1] = (byte) 1;
+            batch.logits[batch.n_tokens - 1] = 1;
 
             if (LLamaMethods.llama_decode(Context, batch) != 0)
             {
@@ -96,7 +100,8 @@ namespace ggmlcs.Native
 
                 LLamaTokenData[] candidates = new LLamaTokenData[n_vocab];
 
-                for (LLamaToken token = 0; token < n_vocab; token++) {
+                for (LLamaToken token = 0; token < n_vocab; token++)
+                {
                     candidates[token] = new LLamaTokenData(token, logits[token], 0.0f);
                 }
 

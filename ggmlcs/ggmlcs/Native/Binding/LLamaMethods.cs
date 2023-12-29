@@ -42,7 +42,7 @@ namespace ggmlcs.Native.Binding
             batch.pos[batch.n_tokens] = pos;
             batch.n_seq_id[batch.n_tokens] = seqIds.Length;
 
-            for (var i = 0; i < seqIds.Length; i++)
+            for (var i = 0; i < seqIds.Length; ++i)
                 batch.seq_id[batch.n_tokens][i] = seqIds[i];
 
             batch.logits[batch.n_tokens] = Convert.ToByte(logits);
