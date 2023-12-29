@@ -2,6 +2,7 @@
 using ggmlcs.Native.Binding.Params;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace ggmlcs.Native.Binding
 {
@@ -28,7 +29,7 @@ namespace ggmlcs.Native.Binding
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern int llama_tokenize(LLamaModel model, string text, int textLength, [Out] LLamaToken[] tokens, int numberOfMaxTokens, bool addBos = false, bool special = true);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int llama_token_to_piece(LLamaModel model, LLamaToken token, char[] buffer, int length);
+        public static extern int llama_token_to_piece(LLamaModel model, LLamaToken token, [Out] char[] buffer, int length);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern int llama_token_eos(LLamaModel model);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]

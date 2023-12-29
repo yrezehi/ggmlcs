@@ -67,11 +67,6 @@ namespace ggmlcs.Native
             int tokensSize = LLamaMethods.llama_tokenize(Model, prompt, prompt.Length, tokens, tokens.Length);
             Array.Resize(ref tokens, tokensSize);
 
-            LLamaToken[] newValues = new LLamaToken[tokens.Length + 1];
-            newValues[0] = 1;
-            Array.Copy(tokens, 0, newValues, 1, tokens.Length);
-            tokens = newValues;
-
             int n_len = 32;
 
             int n_ctx = LLamaMethods.llama_n_ctx(Context);
@@ -119,6 +114,21 @@ namespace ggmlcs.Native
                     break;
                 }
 
+                char[] buffer = new char[8];
+
+                var result = LLamaMethods.llama_token_to_piece(Model, token_id, buffer, buffer.Length);
+
+                if(result < 0)
+                {
+
+                }
+
+                string toReturn = new(buffer, 0, result);
+                byte[] dataAsWindows1252 = Encoding.UTF8.GetBytes(toReturn);
+
+                string correctlyInterpretedString = Encoding.UTF8.GetString(dataAsWindows1252);
+                Console.WriteLine(correctlyInterpretedString);
+
                 batch.n_tokens = 0;
 
                 LLamaMethods.llama_batch_add(ref batch, token_id, n_cur, new[] { 0 }, true);
@@ -134,9 +144,9 @@ namespace ggmlcs.Native
             LLamaMethods.llama_batch_free(batch);
 
             LLamaMethods.llama_free(Context);
-            LLamaMethods.llama_free_model(Context);
 
             LLamaMethods.llama_free_model(Model);
+
             LLamaMethods.llama_backend_free();
         }
 
