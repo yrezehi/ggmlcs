@@ -112,7 +112,7 @@ namespace ggmlcs.Native
 
                 LLamaTokenDataArray candidates_p = new LLamaTokenDataArray(candidates, candidates.Length, false);
 
-                LLamaToken token_id = LLamaMethods.llama_sample_token_greedy(Context, candidates_p);
+                LLamaToken token_id = LLamaMethods.llama_sample_token_greedy(Context, ref candidates_p);
 
                 LLamaMethods.llama_batch_add(ref batch, token_id, n_cur, new[] { 0 }, true);
 
