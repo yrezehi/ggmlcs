@@ -8,32 +8,44 @@ using System.Threading.Tasks;
 
 namespace GGML.Native.Binding
 {
-    public class LLamaMethodsHandler
+    public static unsafe class LLamaMethodsHandler
     {
-        public static extern LLamaModel LoadModelFromFile(string path, LLamaModelParams @params);
+        public static LLamaModel LoadModelFromFile(string path, LLamaModelParams @params) =>
+            LLamaMethods.llama_load_model_from_file(path, @params);
         
-        public static extern void BackendInit(bool numa = false);
+        public static void BackendInit(bool numa = false) =>
+            LLamaMethods.llama_backend_init(numa);
         
-        public static extern LLamaModel NewContextWithModel(LLamaModel model, LLamaContextParams @params);
+        public static LLamaModel NewContextWithModel(LLamaModel model, LLamaContextParams @params) =>
+            LLamaMethods.llama_new_context_with_model(model, @params);
         
-        public static extern int NCTXTrain(LLamaModel model);
+        public static int NCTXTrain(LLamaModel model) =>
+            LLamaMethods.llama_n_ctx_train(model);
         
-        public static extern int NCtx(LLamaModel context);
+        public static int NCtx(LLamaModel context) =>
+            LLamaMethods.llama_n_ctx(context);
 
-        public static extern int NVocab(LLamaModel model);
+        public static int NVocab(LLamaModel model) =>
+            LLamaMethods.llama_n_vocab(model);
         
-        public static extern float* GetLogitsIth(LLamaContext context, int i);
+        public static float* GetLogitsIth(LLamaContext context, int i) =>
+            LLamaMethods.llama_get_logits_ith(context, i);
 
+
+        public static int Tokenize(LLamaModel model, string text, int textLength, [Out] LLamaToken[] tokens, int numberOfMaxTokens, bool addBos = false, bool special = true) =>
+            LLamaMethods.llama_tokenize(model, text, textLength, tokens, numberOfMaxTokens, false, true);
         
-        public static extern int Tokenize(LLamaModel model, string text, int textLength, [Out] LLamaToken[] tokens, int numberOfMaxTokens, bool addBos = false, bool special = true);
+        public static int TokenToPiece(LLamaModel model, LLamaToken token, [Out] char[] buffer, int length) =>
+            LLamaMethods.llama_token_to_piece(model, token, buffer, length);
         
-        public static extern int TokenToPiece(LLamaModel model, LLamaToken token, [Out] char[] buffer, int length);
+        public static int TokenEos(LLamaModel model) => 
+            LLamaMethods.llama_token_eos(model);
         
-        public static extern int TokenEos(LLamaModel model);
+        public static int Decode(LLamaContext context, LLamaBatch batch) =>
+            LLamaMethods.llama_decode(context, batch);
         
-        public static extern int Decode(LLamaContext context, LLamaBatch batch);
-        
-        public static extern LLamaBatch BatchInit(int n_tokens = 512, int embd = 0, int n_seq_max = 1);
+        public static LLamaBatch BatchInit(int n_tokens = 512, int embd = 0, int n_seq_max = 1) =>
+            LLamaMethods.llama_batch_init(n_tokens, embd, n_seq_max);
 
         public static void BatchAdd(ref LLamaBatch batch, LLamaToken id, LLamaPos pos, ReadOnlySpan<LlamaSeqId> seqIds, bool logits)
         {
@@ -49,22 +61,28 @@ namespace GGML.Native.Binding
             batch.n_tokens++;
         }
         
-        public static extern void BatchFree(LLamaBatch batch);
+        public static void BatchFree(LLamaBatch batch) =>
+            LLamaMethods.llama_batch_free(batch);
+        
+        public static void FreeContext(LLamaModel context) =>
+            LLamaMethods.llama_free(context);   
+        
+        public static void FreeModel(LLamaModel model) =>
+            LLamaMethods.llama_free_model(model);
+        
+        public static void BackendFree() =>
+            LLamaMethods.llama_backend_free();
 
+        public static LLamaContextParams ContextDefaultParams() =>
+            LLamaMethods.llama_context_default_params();
         
-        public static extern void FreeContext(LLamaModel context);
+        public static LLamaModelParams ModelDefaultParams() =>
+            LLamaMethods.llama_model_default_params();
         
-        public static extern void FreeModel(LLamaModel model);
+        public static LLamaToken SampleTokenGreedy(LLamaContext context, ref LLamaTokenDataArray candidates) =>
+            LLamaMethods.llama_sample_token_greedy(context, ref candidates);
         
-        public static extern void BackendFree();
-
-        public static extern LLamaContextParams ContextDefaultParams();
-        public static extern LLamaModelParams ModelDefaultParams();
-
-        
-        public static extern LLamaToken llama_sample_token_greedy(LLamaContext context, ref LLamaTokenDataArray candidates);
-
-        
-        internal static extern void llama_sample_temperature(LLamaContext context, LLamaTokenDataArray candidates, float temp);
+        internal static void SampleTemperature(LLamaContext context, LLamaTokenDataArray candidates, float temp) =>
+            LLamaMethods.llama_sample_temperature(context, ref candidates, temp);
     }
 }
