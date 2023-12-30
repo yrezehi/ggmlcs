@@ -2,8 +2,6 @@
 using GGML.Native.Binding.Definitions.Context;
 using GGML.Native.Binding.Definitions.Model;
 using GGML.Native.Binding.Definitions.TokenData;
-using GGML.Native.Binding.Mode.Instruct;
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace GGML.Native.Binding
