@@ -47,7 +47,7 @@ build_llama() {
 	  exit 1
 	fi
 	# build llama.cpp
-	( cd $llama_project_directory/build && cmake -DBUILD_SHARED_LIBS=ON -DLLAMA_BLAS=ON -DLLAMA_BLAS_VENDOR=OpenBLAS .. && cmake --build . --config $build_type )
+	( cd $llama_project_directory && mkdir -p build && cd build && cmake -DBUILD_SHARED_LIBS=ON -DLLAMA_BLAS=ON -DLLAMA_BLAS_VENDOR=OpenBLAS .. && cmake --build . --config $build_type )
 }
 
 post_llama_build() {
@@ -80,7 +80,7 @@ build_llama
 
 print_instruction "POST BUILD LLAMA.CPP PROJECT"
 
-dll_output_dictionary=$root_directory/ggmlcs/ggmlcs/Native/Runtimes/windows
+dll_output_dictionary=$root_directory/ggmlcs/GGML/Native/Runtimes/windows
 
 post_llama_build
 
