@@ -1,5 +1,8 @@
 ﻿using GGML.Native.Binding;
-using GGML.Native.Binding.Definitions;
+using GGML.Native.Binding.Definitions.Batch;
+using GGML.Native.Binding.Definitions.Context;
+using GGML.Native.Binding.Definitions.Model;
+using GGML.Native.Binding.Definitions.TokenData;
 using GGML.Native.DLLs;
 using System;
 using System.IO;
@@ -43,22 +46,14 @@ namespace GGML.Native
 
             LLamaContext context = LLamaMethodsHandler.NewContextWithModel(model, contextParams);
 
-            if (context == LLamaModel.Zero)
-            {
-                throw new MemberAccessException(message: $"Unable to load context {path}");
-            }
-
             return new LLama(context, model, contextParams);
         }
 
         public void Infer(string prompt)
         {
-
             Console.Write(prompt);
 
-            LLamaToken[] tokens = new LLamaToken[prompt.Length];
-            int tokensSize = LLamaMethodsHandler.Tokenize(Model, prompt, prompt.Length, tokens, tokens.Length);
-            Array.Resize(ref tokens, tokensSize);
+            LLamaToken[] tokens = LLamaMethodsHandler.Tokenize(Model, prompt);
 
             int n_len = 32;
 
@@ -79,10 +74,7 @@ namespace GGML.Native
 
             batch.logits[batch.n_tokens - 1] = 1;
 
-            if (LLamaMethods.llama_decode(Context, batch) != 0)
-            {
-                throw new MemberAccessException(message: $"Failed to decode batch!");
-            }
+            LLamaMethodsHandler.Decode(Context, batch);
 
             int n_cur = batch.n_tokens;
 
@@ -122,11 +114,9 @@ namespace GGML.Native
                     Array.Resize(ref buffer, result);
                 }
 
-                string toReturn = new(buffer, 0, result);
-                byte[] dataAsWindows1252 = Encoding.UTF8.GetBytes(toReturn);
+                string resultText = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(new string(buffer, 0, result)));
 
-                string correctlyInterpretedString = Encoding.UTF8.GetString(dataAsWindows1252);
-                Console.Write(correctlyInterpretedString);
+                Console.Write(resultText);
 
                 batch.n_tokens = 0;
 
@@ -134,10 +124,7 @@ namespace GGML.Native
 
                 n_cur += 1;
 
-                if (LLamaMethodsHandler.Decode(Context, batch) != 0)
-                {
-                    throw new MemberAccessException(message: $"Failed to decode batch!");
-                }
+                LLamaMethodsHandler.Decode(Context, batch);
             }
 
             LLamaMethodsHandler.BatchFree(batch);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GGML.Native.Binding.Definitions
+namespace GGML.Native.Binding.Definitions.KvOverride
 {
     public enum LlamaModelKvOverrideType
     {

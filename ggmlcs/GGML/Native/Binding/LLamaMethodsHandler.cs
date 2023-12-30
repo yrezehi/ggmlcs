@@ -1,12 +1,10 @@
-﻿using GGML.Native.Binding.Definitions;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using GGML.Native.Binding.Definitions.Batch;
+using GGML.Native.Binding.Definitions.Context;
+using GGML.Native.Binding.Definitions.Model;
+using GGML.Native.Binding.Definitions.TokenData;
+using GGML.Native.Binding.Mode.Instruct;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GGML.Native.Binding
 {
@@ -52,17 +50,31 @@ namespace GGML.Native.Binding
             LLamaMethods.llama_get_logits_ith(context, i);
 
 
-        public static int Tokenize(LLamaModel model, string text, int textLength, [Out] LLamaToken[] tokens, int numberOfMaxTokens, bool addBos = false, bool special = true) =>
-            LLamaMethods.llama_tokenize(model, text, textLength, tokens, numberOfMaxTokens, false, true);
+        public static LLamaToken[] Tokenize(LLamaModel model, string text)
+        {
+            LLamaToken[] tokens = new LLamaToken[text.Length];
+            int tokensSize = LLamaMethods.llama_tokenize(model, text, text.Length, tokens, tokens.Length, false, true);
+            Array.Resize(ref tokens, tokensSize);
+            return tokens;
+        }
         
         public static int TokenToPiece(LLamaModel model, LLamaToken token, [Out] char[] buffer, int length) =>
             LLamaMethods.llama_token_to_piece(model, token, buffer, length);
         
         public static int TokenEos(LLamaModel model) => 
             LLamaMethods.llama_token_eos(model);
-        
-        public static int Decode(LLamaContext context, LLamaBatch batch) =>
-            LLamaMethods.llama_decode(context, batch);
+
+        public static int Decode(LLamaContext context, LLamaBatch batch)
+        {
+            int result = LLamaMethods.llama_decode(context, batch);
+
+            if (result != 0)
+            {
+                throw new MemberAccessException(message: $"Failed to decode batch!");
+            }
+
+            return result;
+        }
         
         public static LLamaBatch BatchInit(int n_tokens = 512, int embd = 0, int n_seq_max = 1) =>
             LLamaMethods.llama_batch_init(n_tokens, embd, n_seq_max);

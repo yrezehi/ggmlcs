@@ -1,4 +1,7 @@
-﻿using GGML.Native.Binding.Definitions;
+﻿using GGML.Native.Binding.Definitions.Batch;
+using GGML.Native.Binding.Definitions.Context;
+using GGML.Native.Binding.Definitions.Model;
+using GGML.Native.Binding.Definitions.TokenData;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -36,19 +39,7 @@ namespace GGML.Native.Binding
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern LLamaBatch llama_batch_init(int n_tokens = 512, int embd = 0, int n_seq_max = 1);
-        public static void llama_batch_add(ref LLamaBatch batch, LLamaToken id, LLamaPos pos, ReadOnlySpan<LlamaSeqId> seqIds, bool logits)
-        {
-            batch.token[batch.n_tokens] = id;
-            batch.pos[batch.n_tokens] = pos;
-            batch.n_seq_id[batch.n_tokens] = seqIds.Length;
-
-            for (var i = 0; i < seqIds.Length; ++i)
-                batch.seq_id[batch.n_tokens][i] = seqIds[i];
-
-            batch.logits[batch.n_tokens] = Convert.ToByte(logits);
-
-            batch.n_tokens++;
-        }
+       
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern void llama_batch_free(LLamaBatch batch);
 

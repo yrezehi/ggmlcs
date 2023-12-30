@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace GGML.Native.Binding.Definitions
+namespace GGML.Native.Binding.Definitions.Batch
 {
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct LLamaBatch

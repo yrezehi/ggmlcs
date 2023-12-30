@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GGML.Native.Binding.Definitions
+namespace GGML.Native.Binding.Definitions.KvOverride
 {
     [StructLayout(LayoutKind.Explicit)]
     public struct LlamaModelKvOverrideValue
