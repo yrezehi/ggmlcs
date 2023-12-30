@@ -7,3 +7,5 @@
 - [ ] HF Downloader
 - [ ] GGML Converter
 - [ ] Binding GGML
+- [ ] GPT-2 Binding
+- [ ] Binding LLAMA
