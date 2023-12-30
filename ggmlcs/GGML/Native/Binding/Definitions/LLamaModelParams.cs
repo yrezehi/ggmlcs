@@ -1,7 +1,6 @@
-﻿using ggmlcs.Native.Binding.Entities;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
-namespace ggmlcs.Native.Binding.Params
+namespace GGML.Native.Binding.Definitions
 {
     public unsafe struct LLamaModelParams
     {
@@ -10,7 +9,7 @@ namespace ggmlcs.Native.Binding.Params
         public float* tensor_split;
         public LlamaProgressCallback progress_callback;
         public void* progress_callback_user_data;
-        public LlamaModelKvOverride* kv_overrides; 
+        public LlamaModelKvOverride* kv_overrides;
         public bool vocab_only;
         public bool use_mmap;
         public bool use_mlock;

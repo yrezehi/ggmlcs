@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ggmlcs.Native.Constants
+namespace GGML.Native.Constants
 {
     public class LLamaConstants
     {

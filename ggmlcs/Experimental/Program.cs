@@ -1,4 +1,4 @@
-﻿using ggmlcs.Native;
+﻿using GGML.Native;
 
 var instance = LLama.CreateInstance("C:\\llm_models\\llama-2-7b-guanaco-qlora.Q2_K.gguf");
 

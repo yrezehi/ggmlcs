@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ggmlcs.Native.Binding.Params
+namespace GGML.Native.Binding.Definitions
 {
     public class LLamaParams
     {

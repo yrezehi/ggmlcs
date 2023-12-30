@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace ggmlcs.Native.Libs.Platforms
+namespace GGML.Native.Libs.Platforms
 {
     public static class WindowsLoader
     {
@@ -8,7 +8,7 @@ namespace ggmlcs.Native.Libs.Platforms
         {
             NativeLibrary.TryLoad(libraryPath, out var handler);
 
-            if (handler == IntPtr.Zero)
+            if (handler == LLamaModel.Zero)
             {
                 throw new ArgumentException($"Failed to load {libraryPath}");
             }

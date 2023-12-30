@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ggmlcs.Native.Binding.Entities
+namespace GGML.Native.Binding.Definitions
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct LlamaModelKvOverride

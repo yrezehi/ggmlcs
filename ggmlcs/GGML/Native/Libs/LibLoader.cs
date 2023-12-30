@@ -1,6 +1,6 @@
-﻿using ggmlcs.Native.Libs.Platforms;
+﻿using GGML.Native.Libs.Platforms;
 
-namespace ggmlcs.Native.Libs
+namespace GGML.Native.Libs
 {
     public static class LibLoader
     {

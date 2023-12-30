@@ -1,7 +1,6 @@
-﻿using ggmlcs.Native.Binding;
-using ggmlcs.Native.Binding.Entities;
-using ggmlcs.Native.Binding.Params;
-using ggmlcs.Native.Libs;
+﻿using GGML.Native.Binding;
+using GGML.Native.Binding.Definitions;
+using GGML.Native.Libs;
 using System;
 using System.IO;
 using System.Reflection;
@@ -12,7 +11,7 @@ using System.Threading.Tasks;
 
 // reference llama.cpp official: https://github.com/ggerganov/llama.cpp/blob/8a5be3bd5885d79ad84aadf32bb8c1a67bd43c19/examples/simple/simple.cpp#L42
 
-namespace ggmlcs.Native
+namespace GGML.Native
 {
     public unsafe class LLama : IDisposable
     {
@@ -41,7 +40,7 @@ namespace ggmlcs.Native
 
             LLamaModel model = LLamaMethods.llama_load_model_from_file(path, modelParams);
 
-            if (model == nint.Zero)
+            if (model == LLamaModel.Zero)
             {
                 throw new MemberAccessException(message: $"Unable to load model {path}");
             }
@@ -56,7 +55,7 @@ namespace ggmlcs.Native
 
             LLamaContext context = LLamaMethods.llama_new_context_with_model(model, contextParams);
 
-            if (context == nint.Zero)
+            if (context == LLamaModel.Zero)
             {
                 throw new MemberAccessException(message: $"Unable to load context {path}");
             }
@@ -66,6 +65,9 @@ namespace ggmlcs.Native
 
         public void Infer(string prompt)
         {
+
+            Console.Write(prompt);
+
             LLamaToken[] tokens = new LLamaToken[prompt.Length];
             int tokensSize = LLamaMethods.llama_tokenize(Model, prompt, prompt.Length, tokens, tokens.Length);
             Array.Resize(ref tokens, tokensSize);
@@ -121,12 +123,13 @@ namespace ggmlcs.Native
 
                 var result = LLamaMethods.llama_token_to_piece(Model, token_id, buffer, buffer.Length);
 
-                if(result < 0)
+                if (result < 0)
                 {
                     Array.Resize(ref buffer, -result);
                     LLamaMethods.llama_token_to_piece(Model, token_id, buffer, buffer.Length);
                     result = -result;
-                } else
+                }
+                else
                 {
                     Array.Resize(ref buffer, result);
                 }

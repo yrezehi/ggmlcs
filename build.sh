@@ -47,16 +47,11 @@ build_llama() {
 	  exit 1
 	fi
 	# build llama.cpp
-	( cd $llama_project_directory/build && cmake -DBUILD_SHARED_LIBS=ON -DLLAMA_BLAS=ON -DLLAMA_BLAS_VENDOR=OpenBLAS .. && cmake --build . --config Release )
+	( cd $llama_project_directory/build && cmake -DBUILD_SHARED_LIBS=ON -DLLAMA_BLAS=ON -DLLAMA_BLAS_VENDOR=OpenBLAS .. && cmake --build . --config $build_type )
 }
 
-# copies libllama to build folder
-# copies convert-pth-to-ggml.py to build folder
-# copies quantize.exe to build
-# copies quantize.py to build
 post_llama_build() {
-    cp "$llama_project_directory/build/bin/$build_type/llama.dll" $root_directory/ggmlcs/ggmlcs/Native/Runtimes/windows
-    cp "$llama_project_directory/build/bin/$build_type/quantize.exe" $build_directory
+    cp "$llama_project_directory/build/bin/$build_type/llama.dll" $dll_output_dictionary
 }
 
 root_directory="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
@@ -84,6 +79,8 @@ print_instruction "BUILD LLAMA.CPP PROJECT"
 build_llama
 
 print_instruction "POST BUILD LLAMA.CPP PROJECT"
+
+dll_output_dictionary=$root_directory/ggmlcs/ggmlcs/Native/Runtimes/windows
 
 post_llama_build
 

@@ -1,10 +1,9 @@
-﻿using ggmlcs.Native.Binding.Entities;
-using ggmlcs.Native.Binding.Params;
+﻿using GGML.Native.Binding.Definitions;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace ggmlcs.Native.Binding
+namespace GGML.Native.Binding
 {
     public static unsafe class LLamaMethods
     {
@@ -13,12 +12,12 @@ namespace ggmlcs.Native.Binding
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern void llama_backend_init(bool numa = false);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr llama_new_context_with_model(LLamaModel model, LLamaContextParams @params);
+        public static extern LLamaModel llama_new_context_with_model(LLamaModel model, LLamaContextParams @params);
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern int llama_n_ctx_train(LLamaModel model);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int llama_n_ctx(IntPtr context);
+        public static extern int llama_n_ctx(LLamaModel context);
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern int llama_n_vocab(LLamaModel model);
@@ -54,7 +53,7 @@ namespace ggmlcs.Native.Binding
         public static extern void llama_batch_free(LLamaBatch batch);
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void llama_free(IntPtr context);
+        public static extern void llama_free(LLamaModel context);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern void llama_free_model(LLamaModel model);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]

@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ggmlcs\ggmlcs.csproj" />
+    <ProjectReference Include="..\GGML\GGML.csproj" />
   </ItemGroup>
 
 </Project>

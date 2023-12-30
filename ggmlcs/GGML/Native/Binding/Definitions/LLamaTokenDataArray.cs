@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ggmlcs.Native.Binding.Entities
+namespace GGML.Native.Binding.Definitions
 {
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct LLamaTokenDataArray
@@ -21,7 +21,7 @@ namespace ggmlcs.Native.Binding.Entities
                 this.data = llamaTokenData;
             }
 
-            this.size = (ulong) size;
+            this.size = (ulong)size;
             this.sorted = sorted;
         }
     }

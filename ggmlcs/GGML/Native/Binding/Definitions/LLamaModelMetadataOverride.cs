@@ -1,4 +1,4 @@
-﻿namespace ggmlcs.Native.Binding.Entities
+﻿namespace GGML.Native.Binding.Definitions
 {
     public unsafe delegate void LlamaProgressCallback(float progress);
 }
