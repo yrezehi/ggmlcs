@@ -1,6 +1,6 @@
 ﻿using GGML.Native.Binding;
 using GGML.Native.Binding.Definitions;
-using GGML.Native.Libs;
+using GGML.Native.DLLs;
 using System;
 using System.IO;
 using System.Reflection;
@@ -31,7 +31,7 @@ namespace GGML.Native
                 throw new FileNotFoundException(path);
             }
 
-            LibLoader.LibraryLoad();
+            DLLLoader.LibraryLoad();
 
             LLamaMethods.llama_backend_init();
 

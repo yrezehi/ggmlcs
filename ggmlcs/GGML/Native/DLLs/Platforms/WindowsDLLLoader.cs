@@ -1,8 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace GGML.Native.Libs.Platforms
+namespace GGML.Native.DLLs.Platforms
 {
-    public static class WindowsLoader
+    public static class WindowsDLLLoader
     {
         public static void LibraryLoad(string libraryPath)
         {

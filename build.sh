@@ -84,4 +84,6 @@ dll_output_dictionary=$root_directory/ggmlcs/GGML/Native/Runtimes/windows
 
 post_llama_build
 
+echo "$dll_output_dictionary/llama.dll"
+
 print_instruction "ALL GOOD"
