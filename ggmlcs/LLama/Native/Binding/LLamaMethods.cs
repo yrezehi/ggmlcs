@@ -1,10 +1,12 @@
-﻿using GGML.Native.Binding.Definitions.Batch;
-using GGML.Native.Binding.Definitions.Context;
-using GGML.Native.Binding.Definitions.Model;
-using GGML.Native.Binding.Definitions.TokenData;
+﻿using LLama.Native.Binding.Definitions.Batch;
+using LLama.Native.Binding.Definitions.Context;
+using LLama.Native.Binding.Definitions.Model;
+using LLama.Native.Binding.Definitions.TokenData;
+using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
-namespace GGML.Native.Binding
+namespace LLama.Native.Binding
 {
     public static unsafe class LLamaMethods
     {
@@ -37,7 +39,7 @@ namespace GGML.Native.Binding
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern LLamaBatch llama_batch_init(int n_tokens = 512, int embd = 0, int n_seq_max = 1);
-       
+
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern void llama_batch_free(LLamaBatch batch);
 

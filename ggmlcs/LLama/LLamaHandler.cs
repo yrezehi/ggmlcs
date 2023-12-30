@@ -1,9 +1,9 @@
-﻿using GGML.Native.Binding;
-using GGML.Native.Binding.Definitions.Batch;
-using GGML.Native.Binding.Definitions.Context;
-using GGML.Native.Binding.Definitions.Model;
-using GGML.Native.Binding.Definitions.TokenData;
-using GGML.Native.DLLs;
+﻿using LLama.Native.Binding;
+using LLama.Native.Binding.Definitions.Batch;
+using LLama.Native.Binding.Definitions.Context;
+using LLama.Native.Binding.Definitions.Model;
+using LLama.Native.Binding.Definitions.TokenData;
+using LLama.Native.DLLs;
 using System;
 using System.IO;
 using System.Reflection;
@@ -14,9 +14,9 @@ using System.Threading.Tasks;
 
 // reference llama.cpp official: https://github.com/ggerganov/llama.cpp/blob/8a5be3bd5885d79ad84aadf32bb8c1a67bd43c19/examples/simple/simple.cpp#L42
 
-namespace GGML.Native
+namespace LLama
 {
-    public unsafe class LLama : IDisposable
+    public unsafe class LLamaHandler : IDisposable
     {
         private LLamaContext Context { get; set; }
         private LLamaModel Model { get; set; }
@@ -24,10 +24,10 @@ namespace GGML.Native
         private LLamaContextParams ContextParams { get; set; } = new LLamaContextParams();
         private LLamaModelParams ModelParams { get; set; } = new LLamaModelParams();
 
-        private LLama(LLamaContext context, LLamaModel model, LLamaContextParams contextParams) =>
+        private LLamaHandler(LLamaContext context, LLamaModel model, LLamaContextParams contextParams) =>
             (Context, Model, ContextParams) = (context, model, contextParams);
 
-        public static LLama CreateInstance(string path)
+        public static LLamaHandler CreateInstance(string path)
         {
             if (!File.Exists(path))
             {
@@ -46,7 +46,7 @@ namespace GGML.Native
 
             LLamaContext context = LLamaMethodsHandler.NewContextWithModel(model, contextParams);
 
-            return new LLama(context, model, contextParams);
+            return new LLamaHandler(context, model, contextParams);
         }
 
         public void Infer(string prompt)

@@ -1,6 +1,11 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace GGML.Native.Binding.Definitions.TokenData
+namespace LLama.Native.Binding.Definitions.TokenData
 {
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct LLamaTokenDataArray
