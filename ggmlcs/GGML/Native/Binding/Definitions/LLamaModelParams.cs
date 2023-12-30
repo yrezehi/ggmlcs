@@ -14,9 +14,8 @@ namespace GGML.Native.Binding.Definitions
         public bool use_mmap;
         public bool use_mlock;
 
-        public static LLamaModelParams Default()
-        {
-            return new LLamaModelParams {
+        public static LLamaModelParams Default() =>
+            new LLamaModelParams {
                 n_gpu_layers                = 0,
                 main_gpu                    = 0,
                 tensor_split                = null,
@@ -27,6 +26,6 @@ namespace GGML.Native.Binding.Definitions
                 use_mmap                    = true,
                 use_mlock                   = false,
             };
-        }
+        
     }
 }

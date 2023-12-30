@@ -33,18 +33,13 @@ namespace GGML.Native
 
             DLLLoader.LibraryLoad();
 
-            LLamaMethods.llama_backend_init();
+            LLamaMethodsHandler.BackendInit();
 
             LLamaModelParams modelParams = LLamaModelParams.Default();
 
-            LLamaModel model = LLamaMethods.llama_load_model_from_file(path, modelParams);
+            LLamaModel model = LLamaMethodsHandler.LoadModelFromFile(path, modelParams);
 
-            if (model == LLamaModel.Zero)
-            {
-                throw new MemberAccessException(message: $"Unable to load model {path}");
-            }
-
-            LLamaContextParams contextParams = LLamaMethods.llama_context_default_params();
+            LLamaContextParams contextParams = LLamaMethodsHandler.ContextDefaultParams();
 
             contextParams.seed = 1234;
             contextParams.n_ctx = 2048;
@@ -52,7 +47,7 @@ namespace GGML.Native
             contextParams.n_threads_batch = 8;
             contextParams.n_threads_batch = 64;
 
-            LLamaContext context = LLamaMethods.llama_new_context_with_model(model, contextParams);
+            LLamaContext context = LLamaMethodsHandler.NewContextWithModel(model, contextParams);
 
             if (context == LLamaModel.Zero)
             {
@@ -68,12 +63,12 @@ namespace GGML.Native
             Console.Write(prompt);
 
             LLamaToken[] tokens = new LLamaToken[prompt.Length];
-            int tokensSize = LLamaMethods.llama_tokenize(Model, prompt, prompt.Length, tokens, tokens.Length);
+            int tokensSize = LLamaMethodsHandler.Tokenize(Model, prompt, prompt.Length, tokens, tokens.Length);
             Array.Resize(ref tokens, tokensSize);
 
             int n_len = 32;
 
-            int n_ctx = LLamaMethods.llama_n_ctx(Context);
+            int n_ctx = LLamaMethodsHandler.NCtx(Context);
             int n_kv_req = tokens.Length + (n_len - tokens.Length);
 
             if (n_kv_req > n_ctx)
@@ -81,11 +76,11 @@ namespace GGML.Native
                 throw new MemberAccessException(message: $"KV Cache is not big enough!");
             }
 
-            LLamaBatch batch = LLamaMethods.llama_batch_init(512, 0, 1);
+            LLamaBatch batch = LLamaMethodsHandler.BatchInit(512, 0, 1);
 
             for (int index = 0; index < tokens.Length; index++)
             {
-                LLamaMethods.llama_batch_add(ref batch, tokens[index], index, new[] { 0 }, false);
+                LLamaMethodsHandler.BatchAdd(ref batch, tokens[index], index, new[] { 0 }, false);
             }
 
             batch.logits[batch.n_tokens - 1] = 1;
@@ -99,8 +94,8 @@ namespace GGML.Native
 
             while (n_cur <= n_len)
             {
-                int n_vocab = LLamaMethods.llama_n_vocab(Model);
-                float* logits = LLamaMethods.llama_get_logits_ith(Context, batch.n_tokens - 1);
+                int n_vocab = LLamaMethodsHandler.NVocab(Model);
+                float* logits = LLamaMethodsHandler.GetLogitsIth(Context, batch.n_tokens - 1);
 
                 LLamaTokenData[] candidates = new LLamaTokenData[n_vocab];
 
@@ -111,21 +106,21 @@ namespace GGML.Native
 
                 LLamaTokenDataArray candidates_p = new LLamaTokenDataArray(candidates, candidates.Length, false);
 
-                LLamaToken token_id = LLamaMethods.llama_sample_token_greedy(Context, ref candidates_p);
+                LLamaToken token_id = LLamaMethodsHandler.SampleTokenGreedy(Context, ref candidates_p);
 
-                if (token_id == LLamaMethods.llama_token_eos(Model) || n_cur == n_len)
+                if (token_id == LLamaMethodsHandler.TokenEos(Model) || n_cur == n_len)
                 {
                     break;
                 }
 
                 char[] buffer = new char[8];
 
-                var result = LLamaMethods.llama_token_to_piece(Model, token_id, buffer, buffer.Length);
+                var result = LLamaMethodsHandler.TokenToPiece(Model, token_id, buffer, buffer.Length);
 
                 if (result < 0)
                 {
                     Array.Resize(ref buffer, -result);
-                    LLamaMethods.llama_token_to_piece(Model, token_id, buffer, buffer.Length);
+                    LLamaMethodsHandler.TokenToPiece(Model, token_id, buffer, buffer.Length);
                     result = -result;
                 }
                 else
@@ -141,23 +136,23 @@ namespace GGML.Native
 
                 batch.n_tokens = 0;
 
-                LLamaMethods.llama_batch_add(ref batch, token_id, n_cur, new[] { 0 }, true);
+                LLamaMethodsHandler.BatchAdd(ref batch, token_id, n_cur, new[] { 0 }, true);
 
                 n_cur += 1;
 
-                if (LLamaMethods.llama_decode(Context, batch) != 0)
+                if (LLamaMethodsHandler.Decode(Context, batch) != 0)
                 {
                     throw new MemberAccessException(message: $"Failed to decode batch!");
                 }
             }
 
-            LLamaMethods.llama_batch_free(batch);
+            LLamaMethodsHandler.BatchFree(batch);
 
-            LLamaMethods.llama_free(Context);
+            LLamaMethodsHandler.FreeContext(Context);
 
-            LLamaMethods.llama_free_model(Model);
+            LLamaMethodsHandler.FreeModel(Model);
 
-            LLamaMethods.llama_backend_free();
+            LLamaMethodsHandler.BackendFree();
         }
 
         public void Dispose() { throw new NotImplementedException(); }

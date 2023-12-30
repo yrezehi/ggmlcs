@@ -29,5 +29,8 @@ namespace GGML.Native.Binding.Definitions
         public bool logits_all;
         public bool embedding;
         public bool offload_kqv;
+
+        public static LLamaContextParams Default() =>
+            new LLamaContextParams();
     }
 }

@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Native\Binding\Mode\Interactive\**" />
+    <EmbeddedResource Remove="Native\Binding\Mode\Interactive\**" />
+    <None Remove="Native\Binding\Mode\Interactive\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Native\DLLs\Runtimes\windows\llama.dll" />
   </ItemGroup>
 
@@ -20,10 +26,6 @@
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Native\Binding\Mode\Interactive\" />
   </ItemGroup>
 
 </Project>

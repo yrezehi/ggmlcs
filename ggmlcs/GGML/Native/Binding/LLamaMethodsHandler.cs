@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,17 @@ namespace GGML.Native.Binding
 {
     public static unsafe class LLamaMethodsHandler
     {
-        public static LLamaModel LoadModelFromFile(string path, LLamaModelParams @params) =>
-            LLamaMethods.llama_load_model_from_file(path, @params);
+        public static LLamaModel LoadModelFromFile(string path, LLamaModelParams @params)
+        {
+            LLamaModel model = LLamaMethods.llama_load_model_from_file(path, @params);
+            
+            if (model == LLamaModel.Zero)
+            {
+                throw new MemberAccessException(message: $"Unable to load model {path}");
+            }
+
+            return model;
+        }
         
         public static void BackendInit(bool numa = false) =>
             LLamaMethods.llama_backend_init(numa);
@@ -82,7 +92,7 @@ namespace GGML.Native.Binding
         public static LLamaToken SampleTokenGreedy(LLamaContext context, ref LLamaTokenDataArray candidates) =>
             LLamaMethods.llama_sample_token_greedy(context, ref candidates);
         
-        internal static void SampleTemperature(LLamaContext context, LLamaTokenDataArray candidates, float temp) =>
-            LLamaMethods.llama_sample_temperature(context, ref candidates, temp);
+        internal static void SampleTemperature(LLamaContext context, ref LLamaTokenDataArray candidates, float temp) =>
+            LLamaMethods.llama_sample_temperature(context, candidates, temp);
     }
 }
