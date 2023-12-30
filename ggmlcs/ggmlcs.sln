@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Experimental", "Experimenta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LLamacs", "llamacs\LLamacs.csproj", "{CC936AD5-BB36-4195-822D-34B7FDD485D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GGmlcs", "GGmlcs\GGmlcs.csproj", "{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,26 @@ Global
 		{CC936AD5-BB36-4195-822D-34B7FDD485D9}.Release|x64.Build.0 = Release|Any CPU
 		{CC936AD5-BB36-4195-822D-34B7FDD485D9}.Release|x86.ActiveCfg = Release|Any CPU
 		{CC936AD5-BB36-4195-822D-34B7FDD485D9}.Release|x86.Build.0 = Release|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Debug|x64.Build.0 = Debug|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Debug|x86.Build.0 = Debug|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Release|ARM32.Build.0 = Release|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Release|ARM64.Build.0 = Release|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Release|x64.ActiveCfg = Release|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Release|x64.Build.0 = Release|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Release|x86.ActiveCfg = Release|Any CPU
+		{036FBB19-DC82-4F11-8224-E6B8EC5C1C3B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
