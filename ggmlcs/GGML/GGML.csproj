@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Native\Runtimes\windows\llama.dll" />
+    <None Remove="Native\DLLs\Runtimes\windows\llama.dll" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Native\Runtimes\windows\llama.dll">
+    <Content Include="Native\DLLs\Runtimes\windows\llama.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

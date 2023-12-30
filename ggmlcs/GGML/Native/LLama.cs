@@ -35,7 +35,7 @@ namespace GGML.Native
 
             LLamaMethods.llama_backend_init();
 
-            LLamaModelParams modelParams = LLamaMethods.llama_model_default_params();
+            LLamaModelParams modelParams = LLamaModelParams.Default();
             modelParams.vocab_only = false;
 
             LLamaModel model = LLamaMethods.llama_load_model_from_file(path, modelParams);

@@ -80,7 +80,7 @@ build_llama
 
 print_instruction "POST BUILD LLAMA.CPP PROJECT"
 
-dll_output_dictionary=$root_directory/ggmlcs/GGML/Native/Runtimes/windows
+dll_output_dictionary=$root_directory/ggmlcs/GGML/Native/DLLs/Runtimes/windows
 
 post_llama_build
 
