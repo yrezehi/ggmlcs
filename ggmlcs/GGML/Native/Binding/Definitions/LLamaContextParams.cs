@@ -31,6 +31,27 @@ namespace GGML.Native.Binding.Definitions
         public bool offload_kqv;
 
         public static LLamaContextParams Default() =>
-            new LLamaContextParams();
+            new LLamaContextParams()
+            {
+                seed                        = (int) DateTime.Now.Ticks,
+                n_ctx                       = 512,
+                n_batch                     = 512,
+                n_threads                   = 4,
+                n_threads_batch             = 4,
+                rope_scaling_type           = -1,
+                rope_freq_base              = 0.0f,
+                rope_freq_scale             = 0.0f,
+                yarn_ext_factor             = -1.0f,
+                yarn_attn_factor            = 1.0f,
+                yarn_beta_fast              = 32.0f,
+                yarn_beta_slow              = 1.0f,
+                yarn_orig_ctx               = 0,
+                type_k                      = 1,
+                type_v                      = 1,
+                mul_mat_q                   = true,
+                logits_all                  = false,
+                embedding                   = false,
+                offload_kqv                 = true,
+            };
     }
 }

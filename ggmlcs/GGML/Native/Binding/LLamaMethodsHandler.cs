@@ -1,6 +1,7 @@
 ﻿using GGML.Native.Binding.Definitions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -26,8 +27,17 @@ namespace GGML.Native.Binding
         public static void BackendInit(bool numa = false) =>
             LLamaMethods.llama_backend_init(numa);
         
-        public static LLamaModel NewContextWithModel(LLamaModel model, LLamaContextParams @params) =>
-            LLamaMethods.llama_new_context_with_model(model, @params);
+        public static LLamaModel NewContextWithModel(LLamaModel model, LLamaContextParams @params)
+        {
+            LLamaModel context = LLamaMethods.llama_new_context_with_model(model, @params);
+
+            if (context == LLamaModel.Zero)
+            {
+                throw new MemberAccessException(message: $"Unable to load context!");
+            }
+
+            return context;
+        }
         
         public static int NCTXTrain(LLamaModel model) =>
             LLamaMethods.llama_n_ctx_train(model);

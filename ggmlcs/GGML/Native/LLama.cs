@@ -39,13 +39,7 @@ namespace GGML.Native
 
             LLamaModel model = LLamaMethodsHandler.LoadModelFromFile(path, modelParams);
 
-            LLamaContextParams contextParams = LLamaMethodsHandler.ContextDefaultParams();
-
-            contextParams.seed = 1234;
-            contextParams.n_ctx = 2048;
-
-            contextParams.n_threads_batch = 8;
-            contextParams.n_threads_batch = 64;
+            LLamaContextParams contextParams = LLamaContextParams.Default();
 
             LLamaContext context = LLamaMethodsHandler.NewContextWithModel(model, contextParams);
 
