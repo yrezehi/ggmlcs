@@ -8,9 +8,9 @@ using System.Text;
 
 // reference llama.cpp official: https://github.com/ggerganov/llama.cpp/blob/8a5be3bd5885d79ad84aadf32bb8c1a67bd43c19/examples/simple/simple.cpp#L42
 
-namespace LLamacs.Native.Local
+namespace LLamacs.Local
 {
-    public unsafe class LocalLLama
+    public unsafe class LocalLLama : ILLama
     {
         private LLamaContext Context { get; set; }
         private LLamaModel Model { get; set; }

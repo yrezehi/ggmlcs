@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LLamacs.Native.Web.Clients
+namespace LLamacs.Web.Clients
 {
     public class LLamaClient
     {
@@ -26,7 +26,7 @@ namespace LLamacs.Native.Web.Clients
 
         public static LLamaClient Create()
         {
-            return new LLamaClient() {};
+            return new LLamaClient() { };
         }
     }
 }

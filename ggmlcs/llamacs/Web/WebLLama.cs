@@ -2,16 +2,15 @@
 using LLamacs.Native.Binding.Definitions.Model;
 using LLamacs.Native.Binding;
 using LLamacs.Native.DLLs;
-using LLamacs.Native.Local;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LLamacs.Native.Web
+namespace LLamacs.Web
 {
-    public class WebLLama
+    public class WebLLama : ILLama
     {
         private LLamaContext Context { get; set; }
         private LLamaModel Model { get; set; }
@@ -43,5 +42,7 @@ namespace LLamacs.Native.Web
 
             return new WebLLama(context, model, contextParams);
         }
+
+        public void Infer(string prompt) { }
     }
 }
