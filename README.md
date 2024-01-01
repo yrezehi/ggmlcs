@@ -1,3 +1,9 @@
+<h1 align="center">
+  <br>
+  <img src="logo.png" alt="ggmlcs" width="800">
+  <br>
+</h1>
+
 # ggmlcs
 
 Currently targets CPU only
