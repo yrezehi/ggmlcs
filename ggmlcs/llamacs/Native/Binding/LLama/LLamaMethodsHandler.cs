@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace LLamacs.Native.Binding
+namespace LLamacs.Native.Binding.LLama
 {
     public static unsafe class LLamaMethodsHandler
     {

@@ -10,10 +10,9 @@ using System.Text;
 
 namespace LLamacs.Local
 {
-    public unsafe class LLavaLLama : ILLama<string>
+    public class LLavaLLama
     {
-        public void Infer(string prompt)
-        {
+        public LLavaLLama(string prompt) {
             
         }
     }

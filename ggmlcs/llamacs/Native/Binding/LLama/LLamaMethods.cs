@@ -4,7 +4,7 @@ using LLamacs.Native.Binding.Definitions.Model;
 using LLamacs.Native.Binding.Definitions.TokenData;
 using System.Runtime.InteropServices;
 
-namespace LLamacs.Native.Binding
+namespace LLamacs.Native.Binding.LLama
 {
     public static unsafe class LLamaMethods
     {
