@@ -19,3 +19,5 @@ Verfied Models on current state of the project
 - [ ] GPT-2 Binding
 - [ ] Binding LLAMA
 - [ ] Quantization support
+- [ ] Serve as server
+- [ ] Serve concurrent users
