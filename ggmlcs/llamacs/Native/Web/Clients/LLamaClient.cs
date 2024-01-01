@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LLamacs.Native.Web
+namespace LLamacs.Native.Web.Clients
 {
     public class LLamaClient
     {
@@ -13,7 +13,7 @@ namespace LLamacs.Native.Web
         public LlamaSeqId SeqId { get; set; }
         public LLamaToken sampled { get; set; }
 
-        public long TStartPrompt { get; set; } = -1; 
+        public long TStartPrompt { get; set; } = -1;
         public long TStartGen { get; set; }
 
         public int NPrompt { get; set; } = 0;
