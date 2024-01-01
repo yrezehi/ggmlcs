@@ -1,4 +1,4 @@
-﻿namespace LLamacs.Native.Binding.Definitions.KvOverride
+﻿namespace LLamacs.Native.Binding.Definitions.Kv
 {
     public enum LlamaModelKvOverrideType
     {

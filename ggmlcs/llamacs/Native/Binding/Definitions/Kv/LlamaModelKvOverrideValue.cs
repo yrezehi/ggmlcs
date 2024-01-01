@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace LLamacs.Native.Binding.Definitions.KvOverride
+namespace LLamacs.Native.Binding.Definitions.Kv
 {
     [StructLayout(LayoutKind.Explicit)]
     public struct LlamaModelKvOverrideValue

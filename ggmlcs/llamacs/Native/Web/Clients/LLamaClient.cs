@@ -23,5 +23,10 @@ namespace LLamacs.Native.Web.Clients
         public string Input { get; set; }
         public string prompt { get; set; }
         public string Response { get; set; }
+
+        public static LLamaClient Create()
+        {
+            return new LLamaClient() {};
+        }
     }
 }

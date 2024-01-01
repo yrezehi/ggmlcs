@@ -52,6 +52,8 @@ namespace LLamacs.Native.Binding
         public static extern LLamaContextParams llama_context_default_params();
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern LLamaModelParams llama_model_default_params();
+        [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void llama_kv_cache_view_init(LLamaContext context, int n_max_seq);
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern LLamaToken llama_sample_token_greedy(LLamaContext context, ref LLamaTokenDataArray candidates);
