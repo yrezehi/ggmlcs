@@ -9,6 +9,6 @@ namespace LLamacs.Native.Binding.LLava
     public static unsafe class LLavaClipMethods
     {
         [DllImport("clip", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void clip_model_load(char* fname, int verbosity = 1);
+        public static extern LLamaClipCtx clip_model_load(string fname, int verbosity = 1);
     }
 }

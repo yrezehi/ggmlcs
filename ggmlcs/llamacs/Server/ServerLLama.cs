@@ -1,6 +1,5 @@
 ﻿using LLamacs.Native.Binding.Definitions.Context;
 using LLamacs.Native.Binding.Definitions.Model;
-using LLamacs.Native.Binding;
 using LLamacs.Native.DLLs;
 using System;
 using System.Collections.Generic;
@@ -10,6 +9,7 @@ using System.Threading.Tasks;
 using LLamacs.Server.Clients;
 using LLamacs.Native.Binding.Definitions.Batch;
 using LLamacs.Native.Binding.Definitions.Slots;
+using LLamacs.Native.Binding.LLama;
 
 namespace LLamacs.Server
 {

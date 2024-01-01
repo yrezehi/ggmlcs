@@ -3,6 +3,8 @@ using LLamacs.Native.Binding.Definitions.Batch;
 using LLamacs.Native.Binding.Definitions.Context;
 using LLamacs.Native.Binding.Definitions.Model;
 using LLamacs.Native.Binding.Definitions.TokenData;
+using LLamacs.Native.Binding.LLama;
+using LLamacs.Native.Binding.LLava;
 using LLamacs.Native.DLLs;
 using System.Text;
 
@@ -12,8 +14,14 @@ namespace LLamacs.Local
 {
     public class LLavaLLama
     {
-        public LLavaLLama(string prompt) {
-            
+        public LLavaLLama(string modelPath, string prompt, string clipPath) {
+            LLamaClipCtx clipCtx = LLavaClipMethods.clip_model_load(clipPath);
+
+            LLamaMethodsHandler.BackendInit();
+
+            LLamaModelParams modelParams = LLamaModelParams.Default();
+
+            LLamaMethodsHandler.LoadModelFromFile(modelPath, modelParams);
         }
     }
 }

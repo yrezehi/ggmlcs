@@ -1,8 +1,8 @@
-﻿using LLamacs.Native.Binding;
-using LLamacs.Native.Binding.Definitions.Batch;
+﻿using LLamacs.Native.Binding.Definitions.Batch;
 using LLamacs.Native.Binding.Definitions.Context;
 using LLamacs.Native.Binding.Definitions.Model;
 using LLamacs.Native.Binding.Definitions.TokenData;
+using LLamacs.Native.Binding.LLama;
 using LLamacs.Native.DLLs;
 using System.Text;
 
