@@ -10,7 +10,6 @@ namespace LLamacs.Native.Binding.Definitions.Context
     [StructLayout(LayoutKind.Sequential)]
     public struct LLamaClipCtx
     {
-        
             public bool has_text_encoder;
             public bool has_vision_encoder;
             public bool has_llava_projector;
