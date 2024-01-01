@@ -8,9 +8,9 @@ using System.Text;
 
 // reference llama.cpp official: https://github.com/ggerganov/llama.cpp/blob/8a5be3bd5885d79ad84aadf32bb8c1a67bd43c19/examples/simple/simple.cpp#L42
 
-namespace LLamacs.Native.Models
+namespace LLamacs.Native.Local
 {
-    public unsafe class SimpleLLama : IDisposable
+    public unsafe class LocalLLama
     {
         private LLamaContext Context { get; set; }
         private LLamaModel Model { get; set; }
@@ -18,10 +18,10 @@ namespace LLamacs.Native.Models
         private LLamaContextParams ContextParams { get; set; } = new LLamaContextParams();
         private LLamaModelParams ModelParams { get; set; } = new LLamaModelParams();
 
-        private SimpleLLama(LLamaContext context, LLamaModel model, LLamaContextParams contextParams) =>
+        private LocalLLama(LLamaContext context, LLamaModel model, LLamaContextParams contextParams) =>
             (Context, Model, ContextParams) = (context, model, contextParams);
 
-        public static SimpleLLama CreateInstance(string path)
+        public static LocalLLama CreateInstance(string path)
         {
             if (!File.Exists(path))
             {
@@ -40,7 +40,7 @@ namespace LLamacs.Native.Models
 
             LLamaContext context = LLamaMethodsHandler.NewContextWithModel(model, contextParams);
 
-            return new SimpleLLama(context, model, contextParams);
+            return new LocalLLama(context, model, contextParams);
         }
 
         public void Infer(string prompt)
@@ -111,8 +111,9 @@ namespace LLamacs.Native.Models
             FreeModelResources();
         }
 
-        
-        public void FreeModelResources() {
+
+        public void FreeModelResources()
+        {
             LLamaMethodsHandler.FreeContext(Context);
             LLamaMethodsHandler.FreeModel(Model);
             LLamaMethodsHandler.BackendFree();
