@@ -21,7 +21,11 @@ namespace LLamacs.Local
 
             LLamaModelParams modelParams = LLamaModelParams.Default();
 
-            LLamaMethodsHandler.LoadModelFromFile(modelPath, modelParams);
+            LLamaModel model = LLamaMethodsHandler.LoadModelFromFile(modelPath, modelParams);
+
+            LLamaContextParams contextParams = LLamaContextParams.Default();
+
+            LLamaContext context = LLamaMethodsHandler.NewContextWithModel(model, contextParams);
         }
     }
 }
