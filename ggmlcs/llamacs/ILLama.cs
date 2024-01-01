@@ -1,7 +1,7 @@
 ﻿namespace LLamacs
 {
-    public interface ILLama
+    public interface ILLama<in T>
     {
-        public void Infer(string prompt);
+        public void Infer(T input);
     }
 }

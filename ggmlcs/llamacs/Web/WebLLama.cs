@@ -7,10 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LLamacs.Web.Clients;
 
 namespace LLamacs.Web
 {
-    public class WebLLama : ILLama
+    public class WebLLama : ILLama<LLamaClient>
     {
         private LLamaContext Context { get; set; }
         private LLamaModel Model { get; set; }
@@ -43,6 +44,8 @@ namespace LLamacs.Web
             return new WebLLama(context, model, contextParams);
         }
 
-        public void Infer(string prompt) { }
+        public void Infer(LLamaClient client) {
+            
+        }
     }
 }

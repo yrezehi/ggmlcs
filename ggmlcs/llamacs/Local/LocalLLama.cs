@@ -10,7 +10,7 @@ using System.Text;
 
 namespace LLamacs.Local
 {
-    public unsafe class LocalLLama : ILLama
+    public unsafe class LocalLLama : ILLama<string>
     {
         private LLamaContext Context { get; set; }
         private LLamaModel Model { get; set; }
