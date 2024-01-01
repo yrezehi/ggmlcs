@@ -30,6 +30,8 @@ namespace LLamacs.Server
 
         public int id_gen { get; set; }
         public int n_ctx { get; set; }
+        public int n_ctx_slot { get; set; }
+        public int n_parallel { get; set; } = 4;
 
         public bool system_need_update { get; set; }
         public string system_prompt { get; set; }
@@ -54,8 +56,16 @@ namespace LLamacs.Server
 
         // TODO: condition_variable.condition_results
 
-        private ServerLLama(LLamaContext context, LLamaModel model, LLamaContextParams contextParams) =>
-            (Context, Model, ContextParams) = (context, model, contextParams);
+        private ServerLLama(LLamaContext context, LLamaModel model, LLamaContextParams contextParams, LLamaModelParams modelParams)
+        {
+            id_gen = 0;
+
+            all_slots_are_idl = true;
+
+            n_ctx_slot = n_ctx / n_parallel;
+
+            (Context, Model, ContextParams, ModelParams) = (context, model, contextParams, modelParams);
+        }
 
         public static ServerLLama CreateInstance(string path)
         {
@@ -76,7 +86,7 @@ namespace LLamacs.Server
 
             LLamaContext context = LLamaMethodsHandler.NewContextWithModel(model, contextParams);
 
-            return new ServerLLama(context, model, contextParams);
+            return new ServerLLama(context, model, contextParams, modelParams);
         }
 
         public void Infer(LLamaClient client)
