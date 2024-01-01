@@ -10,7 +10,7 @@ using System.Text;
 
 namespace LLamacs.Local
 {
-    public unsafe class LocalLLama : ILLama<string>
+    public unsafe class LLavaLLama : ILLama<string>
     {
         private LLamaContext Context { get; set; }
         private LLamaModel Model { get; set; }
@@ -18,10 +18,10 @@ namespace LLamacs.Local
         private LLamaContextParams ContextParams { get; set; } = new LLamaContextParams();
         private LLamaModelParams ModelParams { get; set; } = new LLamaModelParams();
 
-        private LocalLLama(LLamaContext context, LLamaModel model, LLamaContextParams contextParams) =>
+        private LLavaLLama(LLamaContext context, LLamaModel model, LLamaContextParams contextParams) =>
             (Context, Model, ContextParams) = (context, model, contextParams);
 
-        public static LocalLLama CreateInstance(string path)
+        public static LLavaLLama CreateInstance(string path)
         {
             if (!File.Exists(path))
             {

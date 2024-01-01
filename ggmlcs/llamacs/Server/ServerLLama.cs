@@ -35,13 +35,13 @@ namespace LLamacs.Server
         public int n_parallel { get; set; } = 4;
 
         public bool system_need_update { get; set; }
-        public string system_prompt { get; set; }
+        public string system_prompt { get; set; } = "";
         public List<LLamaToken> system_tokens { get; set; }
 
         public string name_user { get; set; }
         public string name_assistant { get; set; }
 
-        List<LLamaClientSlot> ClientSlots { get; set; }
+        List<LLamaClientSlot> ClientSlots { get; set; } = new List<LLamaClientSlot>();
 
         // TODO: List.TaskServer
 
@@ -64,6 +64,13 @@ namespace LLamacs.Server
             all_slots_are_idl = true;
 
             n_ctx_slot = n_ctx / n_parallel;
+
+            for(int slotIndex = 0;  slotIndex < n_parallel; slotIndex++)
+            {
+                ClientSlots.Add(LLamaClientSlot.Create(slotIndex, n_ctx_slot));
+            }
+
+            Batch = LLamaMethodsHandler.BatchInit();
 
             (Context, Model, ContextParams, ModelParams) = (context, model, contextParams, modelParams);
         }
