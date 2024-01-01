@@ -9,7 +9,7 @@ namespace LLamacs.Native.Binding.Definitions.Model
         public float* tensor_split;
         public LlamaProgressCallback? progress_callback;
         public void* progress_callback_user_data;
-        public LlamaModelKvOverride* kv_overrides;
+        public LLamaSamplingContext* kv_overrides;
         public bool vocab_only;
         public bool use_mmap;
         public bool use_mlock;
