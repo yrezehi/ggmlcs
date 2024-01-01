@@ -22,9 +22,8 @@ namespace LLamacs.Native.Binding.Definitions.Slots
         public string input_prefix;
         public string input_suffix;
 
-        public static LLamaSlotParams Default()
-        {
-            return new LLamaSlotParams() {
+        public static LLamaSlotParams Default() =>
+            new LLamaSlotParams() {
                 stream = true,
                 cache_prompt = false,
                 seed = uint.MinValue,
@@ -34,6 +33,5 @@ namespace LLamacs.Native.Binding.Definitions.Slots
                 input_prefix = "",
                 input_suffix = ""
             };
-        }
     }
 }

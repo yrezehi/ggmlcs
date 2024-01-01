@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LLamacs.Server.Clients;
 using LLamacs.Native.Binding.Definitions.Batch;
+using LLamacs.Native.Binding.Definitions.Slots;
 
 namespace LLamacs.Server
 {
@@ -40,7 +41,7 @@ namespace LLamacs.Server
         public string name_user { get; set; }
         public string name_assistant { get; set; }
 
-        // TODO: ListLLamaClientSlot
+        List<LLamaClientSlot> ClientSlots { get; set; }
 
         // TODO: List.TaskServer
 

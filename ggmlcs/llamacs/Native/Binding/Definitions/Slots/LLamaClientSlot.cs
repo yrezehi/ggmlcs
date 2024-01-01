@@ -13,21 +13,20 @@ namespace LLamacs.Native.Binding.Definitions.Slots
         public int id;
         public int task_id;
 
+        public int n_ctx = 0;
+        public int n_past = 0;
+        public int n_decoded = 0;
+        public int n_remaining = -1;
+        public int i_batch = -1;
+
         /*
-            struct slot_params params;
+        struct slot_params params;
 
             slot_state state = IDLE;
             slot_command command = NONE;
 
             // used to determine the slot that has been used the longest
             int64_t t_last_used = -1;
-
-            // generation props
-            int32_t n_ctx       = 0;  // context size per slot
-            int32_t n_past      = 0;
-            int32_t n_decoded   = 0;
-            int32_t n_remaining = -1;
-            int32_t i_batch     = -1;
 
             int32_t num_prompt_tokens           = 0;
             int32_t num_prompt_tokens_processed = 0;
@@ -160,5 +159,12 @@ namespace LLamacs.Native.Binding.Definitions.Slots
                 LOG_TEE("%s:       total time = %10.2f ms\n", __func__, t_prompt_processing + t_token_generation);
             }
          */
+
+        public static LLamaClientSlot Create(int id, int n_ctx_slot) =>
+            new LLamaClientSlot()
+            {
+                id = id,
+                n_ctx = n_ctx_slot
+            };
     }
 }
