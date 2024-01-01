@@ -1,5 +1,7 @@
 # ggmlcs
 
+Currently targets CPU only
+
 ### Models
 Verfied Models on current state of the project
 
@@ -9,10 +11,11 @@ Verfied Models on current state of the project
 |  TinyLLama |
 
 ### TODO
-- [ ] Plain models installer sh file
-- [ ] LLama.cpp builder sh file
-- [ ] HF Downloader
+- [ ] Plain models installer
+- [ ] HF models installer
+- [ ] LLama.cpp builder
 - [ ] GGML Converter
 - [ ] Binding GGML
 - [ ] GPT-2 Binding
 - [ ] Binding LLAMA
+- [ ] Quantization support
