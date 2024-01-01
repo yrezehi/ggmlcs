@@ -2,7 +2,9 @@
 using LLamacs.Native.Binding.Definitions.Context;
 using LLamacs.Native.Binding.Definitions.Model;
 using LLamacs.Native.Binding.Definitions.TokenData;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace LLamacs.Native.Binding
 {
@@ -56,8 +58,25 @@ namespace LLamacs.Native.Binding
             return tokens;
         }
 
-        public static int TokenToPiece(LLamaModel model, LLamaToken token, [Out] char[] buffer, int length) =>
-            LLamaMethods.llama_token_to_piece(model, token, buffer, length);
+        public static string TokenToPiece(LLamaModel model, LLamaToken token)
+        {
+            char[] buffer = new char[8];
+
+            var result = LLamaMethods.llama_token_to_piece(model, token, buffer, buffer.Length);
+
+            if (result < 0)
+            {
+                Array.Resize(ref buffer, -result);
+                LLamaMethods.llama_token_to_piece(model, token, buffer, buffer.Length);
+                result = -result;
+            }
+            else
+            {
+                Array.Resize(ref buffer, result);
+            }
+
+            return Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(new string(buffer, 0, result)));
+        }
 
         public static int TokenEos(LLamaModel model) =>
             LLamaMethods.llama_token_eos(model);

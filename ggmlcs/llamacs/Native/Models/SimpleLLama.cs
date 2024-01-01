@@ -93,22 +93,7 @@ namespace LLamacs.Native.Models
                     break;
                 }
 
-                char[] buffer = new char[8];
-
-                var result = LLamaMethodsHandler.TokenToPiece(Model, token_id, buffer, buffer.Length);
-
-                if (result < 0)
-                {
-                    Array.Resize(ref buffer, -result);
-                    LLamaMethodsHandler.TokenToPiece(Model, token_id, buffer, buffer.Length);
-                    result = -result;
-                }
-                else
-                {
-                    Array.Resize(ref buffer, result);
-                }
-
-                string resultText = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(new string(buffer, 0, result)));
+                string resultText = LLamaMethodsHandler.TokenToPiece(Model, token_id);
 
                 Console.Write(resultText);
 
@@ -123,13 +108,14 @@ namespace LLamacs.Native.Models
 
             LLamaMethodsHandler.BatchFree(batch);
 
-            LLamaMethodsHandler.FreeContext(Context);
-
-            LLamaMethodsHandler.FreeModel(Model);
-
-            LLamaMethodsHandler.BackendFree();
+            FreeModelResources();
         }
 
-        public void Dispose() { throw new NotImplementedException(); }
+        
+        public void FreeModelResources() {
+            LLamaMethodsHandler.FreeContext(Context);
+            LLamaMethodsHandler.FreeModel(Model);
+            LLamaMethodsHandler.BackendFree();
+        }
     }
 }
