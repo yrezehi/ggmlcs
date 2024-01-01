@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LLamacs.Web.Clients;
+using LLamacs.Server.Clients;
 
-namespace LLamacs.Web
+namespace LLamacs.Server
 {
     public class ServerLLama : ILLama<LLamaClient>
     {
@@ -44,8 +44,9 @@ namespace LLamacs.Web
             return new ServerLLama(context, model, contextParams);
         }
 
-        public void Infer(LLamaClient client) {
-            
+        public void Infer(LLamaClient client)
+        {
+
         }
     }
 }
