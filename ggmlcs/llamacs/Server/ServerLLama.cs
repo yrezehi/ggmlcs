@@ -11,7 +11,7 @@ using LLamacs.Web.Clients;
 
 namespace LLamacs.Web
 {
-    public class WebLLama : ILLama<LLamaClient>
+    public class ServerLLama : ILLama<LLamaClient>
     {
         private LLamaContext Context { get; set; }
         private LLamaModel Model { get; set; }
@@ -19,10 +19,10 @@ namespace LLamacs.Web
         private LLamaContextParams ContextParams { get; set; } = new LLamaContextParams();
         private LLamaModelParams ModelParams { get; set; } = new LLamaModelParams();
 
-        private WebLLama(LLamaContext context, LLamaModel model, LLamaContextParams contextParams) =>
+        private ServerLLama(LLamaContext context, LLamaModel model, LLamaContextParams contextParams) =>
             (Context, Model, ContextParams) = (context, model, contextParams);
 
-        public static WebLLama CreateInstance(string path)
+        public static ServerLLama CreateInstance(string path)
         {
             if (!File.Exists(path))
             {
@@ -41,7 +41,7 @@ namespace LLamacs.Web
 
             LLamaContext context = LLamaMethodsHandler.NewContextWithModel(model, contextParams);
 
-            return new WebLLama(context, model, contextParams);
+            return new ServerLLama(context, model, contextParams);
         }
 
         public void Infer(LLamaClient client) {
