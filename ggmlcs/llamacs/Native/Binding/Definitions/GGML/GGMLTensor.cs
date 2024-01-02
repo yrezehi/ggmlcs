@@ -6,8 +6,8 @@ namespace LLamacs.Native.Binding.Definitions.GGML
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct GGMLTensor
     {
-        enum GGMLType type;
-        enum ggml_backend_type backend;
+        public GGMLType type;
+        public GGMLBackendType backend;
 
         struct ggml_backend_buffer * buffer;
 
