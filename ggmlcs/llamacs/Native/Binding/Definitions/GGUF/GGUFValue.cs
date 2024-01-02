@@ -23,5 +23,6 @@ namespace LLamacs.Native.Binding.Definitions.GGUF
         public bool bool_;
 
         public GGUFStr str;
+        public GGUFArray arr;
     }
 }
