@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 namespace LLamacs.Native.Binding.Definitions.GGUF
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct GGMLContext
+    public unsafe struct GGMLContext
     {
-        /*size_t mem_size;
-        void* mem_buffer;
-        bool mem_buffer_owned;
-        bool no_alloc;
-        bool no_alloc_save; // this is used to save the no_alloc state when using scratch buffers
+        public UIntPtr mem_size { get; set; }
+        public void* mem_buffer { get; set; }
+        public bool mem_buffer_owned { get; set; }
+        public bool no_alloc { get; set; }
+        public bool no_alloc_save { get; set; }
 
-        int n_objects;
+        public int n_objects { get; set; }
 
+        /*
         struct ggml_object * objects_begin;
         struct ggml_object * objects_end;
 
