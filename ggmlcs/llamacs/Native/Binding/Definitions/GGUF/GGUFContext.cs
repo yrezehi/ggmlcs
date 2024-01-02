@@ -12,8 +12,8 @@ namespace LLamacs.Native.Binding.Definitions.GGUF
     {
         
             public GGUFHeader header;
-        public gguf_kv          * kv;
-        public gguf_tensor_info * infos;
+            public gguf_kv          * kv;
+            public gguf_tensor_info * infos;
             /*
             size_t alignment;
             size_t offset;    // offset of `data` from beginning of file
