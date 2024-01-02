@@ -10,11 +10,11 @@ namespace LLamacs.Native.Binding.Definitions.GGUF
     [StructLayout(LayoutKind.Sequential)]
     public struct GGUFContext
     {
-        /*
-            struct gguf_header header;
-            struct gguf_kv          * kv;
-            struct gguf_tensor_info * infos;
-
+        
+            public GGUFHeader header;
+        public gguf_kv          * kv;
+        public gguf_tensor_info * infos;
+            /*
             size_t alignment;
             size_t offset;    // offset of `data` from beginning of file
             size_t size;      // size of `data` in bytes
