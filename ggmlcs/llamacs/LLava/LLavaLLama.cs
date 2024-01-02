@@ -71,9 +71,9 @@ namespace LLamacs.Local
             LLamaSamplingParams samplingParams = new LLamaSamplingParams();
             LLamaSamplingContext samplingContext = LLamaSamplingMethods.llama_sampling_init(samplingParams);
 
-            for(int index = 0; index < max_tgt_len; index++)
+            for (int index = 0; index < max_tgt_len; index++)
             {
-                string tmp 
+                string tmp
             }
 
         }
@@ -86,7 +86,7 @@ namespace LLamacs.Local
 
             string ret;
 
-            if(id == LLamaMethodsHandler.TokenEos(llamaModel))
+            if (id == LLamaMethodsHandler.TokenEos(llamaModel))
             {
                 ret = "</s>";
             } else
@@ -95,6 +95,8 @@ namespace LLamacs.Local
             }
 
             evalId(llamaContext, id, n_past);
+
+            return ret;
         }
 
         public bool evalId(LLamaContext ctxLLama, int id, int nPast) {
@@ -102,6 +104,26 @@ namespace LLamacs.Local
             tokens.Add(id);
 
             return eval_tokens(ctxLLama, tokens, 1, nPast);
+        }
+
+        static bool eval_tokens(LLamaContext ctx_llama, List<LLamaToken> tokens, int n_batch, int n_past) {
+            int n = tokens.Count;
+
+            for(int index = 0; index < n; index += n_batch)
+            {
+                int n_eval = tokens.Count - index;
+
+                if(n_eval > n_batch)
+                {
+                    n_eval = n_batch;
+                }
+
+                LLamaMethodsHandler.Decode(ctx_llama, LLamaMethods.llama_batch_get_one(tokens.ToArray(), n_eval, n_past, 0));
+
+                n_past += n_eval;
+            }
+
+            return true;
         }
 
         public void EvalImageEmbed(LLamaContext context, LLamaModel model, LLavaImageEmbed image_embed, int n_batch, int n_past) 
