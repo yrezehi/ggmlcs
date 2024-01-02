@@ -1,5 +1,5 @@
 ﻿using LLamacs.Native.Binding.Definitions.Batch;
-using LLamacs.Native.Binding.Definitions.Context;
+using LLamacs.Native.Binding.Definitions.Clips;
 using LLamacs.Native.Binding.Definitions.LLava;
 using LLamacs.Native.Binding.Definitions.Model;
 using LLamacs.Native.Binding.Definitions.TokenData;

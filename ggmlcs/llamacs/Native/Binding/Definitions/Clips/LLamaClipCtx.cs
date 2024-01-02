@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LLamacs.Native.Binding.Definitions.Context
+namespace LLamacs.Native.Binding.Definitions.Clips
 {
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct LLamaClipCtx
@@ -15,7 +15,7 @@ namespace LLamacs.Native.Binding.Definitions.Context
         public bool has_text_encoder;
         public bool has_vision_encoder;
         public bool has_llava_projector;
-        
+
         public ClipVisionModel vision_model;
 
         public float[] image_mean;
@@ -24,7 +24,7 @@ namespace LLamacs.Native.Binding.Definitions.Context
         public bool use_gelu;
 
         public int ftype;
-            
+
         public GGUFContext* ctx_gguf;
         public GGMLContext* ctx_data;
 
