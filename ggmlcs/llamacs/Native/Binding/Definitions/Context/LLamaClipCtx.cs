@@ -28,11 +28,11 @@ namespace LLamacs.Native.Binding.Definitions.Context
         public GGUFContext* ctx_gguf;
         public GGMLContext* ctx_data;
 
-        public List<byte> buf_compute_meta;
-
+        public byte[] buf_compute_meta;
 
         public GGMLBackendBufferT params_buffer;
         public GGMLBackendBufferT compute_buffer;
+
         public GGMLBackendT backend;
         public GGMLAllocr* compute_alloc;
     }
