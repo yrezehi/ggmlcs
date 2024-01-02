@@ -1,6 +1,12 @@
-# ggmlcs
+<h1 align="center">
+  <br>
+  <img src="logo.png" alt="ggmlcs" width="250">
+  <br>
+</h1>
 
-Currently targets CPU only
+<h3 align="center">
+  GGMLCS
+</h3>
 
 ### Models
 Verfied Models on current state of the project
