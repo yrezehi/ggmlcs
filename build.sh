@@ -52,6 +52,7 @@ build_llama() {
 
 post_llama_build() {
     cp "$llama_project_directory/build/bin/$build_type/llama.dll" $dll_output_dictionary
+    cp "$llama_project_directory/build/bin/$build_type/llava_shared.dll" $dll_output_dictionary
 }
 
 root_directory="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
@@ -80,7 +81,7 @@ build_llama
 
 print_instruction "POST BUILD LLAMA.CPP PROJECT"
 
-dll_output_dictionary=$root_directory/ggmlcs/GGML/Native/DLLs/Runtimes/windows
+dll_output_dictionary=$root_directory/ggmlcs/llamacs/Native/DLLs/Runtimes/windows
 
 post_llama_build
 

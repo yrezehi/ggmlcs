@@ -8,10 +8,6 @@ using LLamacs.Native.Binding.Definitions.Sampling;
 using LLamacs.Native.Binding.Definitions.TokenData;
 using LLamacs.Native.Binding.LLama;
 using LLamacs.Native.Binding.LLava;
-using LLamacs.Native.DLLs;
-using System.Text;
-
-// reference llama.cpp official: https://github.com/ggerganov/llama.cpp/blob/8a5be3bd5885d79ad84aadf32bb8c1a67bd43c19/examples/simple/simple.cpp#L42
 
 namespace LLamacs.Local
 {
