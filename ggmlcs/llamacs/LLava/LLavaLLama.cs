@@ -6,6 +6,7 @@ using LLamacs.Native.Binding.Definitions.Batch;
 using LLamacs.Native.Binding.Definitions.Context;
 using LLamacs.Native.Binding.Definitions.Sampling;
 using LLamacs.Native.Binding.Definitions.KvOverride;
+using LLamacs.Native.DLLs;
 
 namespace LLamacs.Local
 {
@@ -21,7 +22,8 @@ namespace LLamacs.Local
 
         public LLavaLLama(string modelPath, string prompt, string clipPath, string imagePath)
         {
-            // setup llava context
+            DLLLoader.LibraryLoad();
+
             LLamaClipCtx clipCtx = LLavaClipMethods.clip_model_load(clipPath);
 
             LLamaMethodsHandler.BackendInit();

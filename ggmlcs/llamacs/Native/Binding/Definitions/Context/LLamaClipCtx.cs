@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LLamacs.Native.Binding.Definitions.Vision;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -13,9 +14,10 @@ namespace LLamacs.Native.Binding.Definitions.Context
             public bool has_text_encoder;
             public bool has_vision_encoder;
             public bool has_llava_projector;
-        /*
-            struct clip_vision_model vision_model;
+        
+            public ClipVisionModel vision_model;
 
+            /*
             float image_mean[3];
             float image_std[3];
             bool use_gelu = false;
