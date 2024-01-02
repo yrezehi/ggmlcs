@@ -8,19 +8,16 @@ using System.Threading.Tasks;
 namespace LLamacs.Native.Binding.Definitions.GGUF
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct GGUFContext
+    public unsafe struct GGUFContext
     {
-        
-            public GGUFHeader header;
-            public gguf_kv          * kv;
-            public gguf_tensor_info * infos;
-            /*
-            size_t alignment;
-            size_t offset;    // offset of `data` from beginning of file
-            size_t size;      // size of `data` in bytes
+        public GGUFHeader header;
+        public GGUFKv* kv;
+        public GGUFTensorInfo* infos;
 
-            //uint8_t * padding;
-            void * data;
-         */
+        public IntPtr alignment;
+        public IntPtr offset;    
+        public IntPtr size;      
+
+        public void* data;
     }
 }
