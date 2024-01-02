@@ -73,7 +73,14 @@ namespace LLamacs.Local
 
             for (int index = 0; index < max_tgt_len; index++)
             {
-                string tmp
+                string tmp = Sample(context.model, samplingContext, context.llama_context, n_past);
+
+                if (string.Compare(tmp, "</s") == 0)
+                {
+                    break;
+                }
+
+                Console.Write(tmp);
             }
 
         }
