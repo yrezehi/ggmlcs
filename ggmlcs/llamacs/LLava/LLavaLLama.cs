@@ -100,25 +100,25 @@ namespace LLamacs.Local
         }
 
         public bool evalId(LLamaContext ctxLLama, int id, int nPast) {
-            List<LLamaToken> tokens = new List<LLamaToken>();
-            tokens.Add(id);
+            LLamaToken[] tokens = new LLamaToken[1];
+            tokens[0] = (id);
 
-            return eval_tokens(ctxLLama, tokens, 1, nPast);
+            return evalTokens(ctxLLama, tokens, 1, nPast);
         }
 
-        static bool eval_tokens(LLamaContext ctx_llama, List<LLamaToken> tokens, int n_batch, int n_past) {
-            int n = tokens.Count;
+        static bool evalTokens(LLamaContext ctx_llama, LLamaToken[] tokens, int n_batch, int n_past) {
+            int n = tokens.Length;
 
             for(int index = 0; index < n; index += n_batch)
             {
-                int n_eval = tokens.Count - index;
+                int n_eval = tokens.Length - index;
 
                 if(n_eval > n_batch)
                 {
                     n_eval = n_batch;
                 }
 
-                LLamaMethodsHandler.Decode(ctx_llama, LLamaMethods.llama_batch_get_one(tokens.ToArray(), n_eval, n_past, 0));
+                LLamaMethodsHandler.Decode(ctx_llama, LLamaMethods.llama_batch_get_one(tokens, n_eval, n_past, 0));
 
                 n_past += n_eval;
             }
@@ -178,6 +178,7 @@ namespace LLamacs.Local
         public void EvalString(LLamaModel model, string str, int n_batch, int n_past, bool add_bos)
         {
             LLamaToken[] tokens = LLamaMethodsHandler.Tokenize(model, str);
+            evalTokens(model, tokens, n_batch, n_past);
         }
 
         public LLavaImageEmbed ProcessImagePath(LLamaClipCtx clipCtx, string imagePath)
