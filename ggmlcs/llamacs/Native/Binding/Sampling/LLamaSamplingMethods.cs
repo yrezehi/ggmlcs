@@ -8,9 +8,12 @@ using System.Runtime.InteropServices;
 
 namespace LLamacs.Native.Binding.LLava
 {
-    public static unsafe class LLavaSamplingMethods
+    public static unsafe class LLamaSamplingMethods
     {
         [DllImport("sampling", CallingConvention = CallingConvention.Cdecl)]
         public static extern LLamaSamplingContext llama_sampling_init(LLamaSamplingParams @params);
+
+        [DllImport("sampling", CallingConvention = CallingConvention.Cdecl)]
+        public static extern LLamaToken llama_sampling_sample(LLamaSamplingContext ctx_sampling, LLamaContext ctx_main, LLamaContext ctx_cfg, int idx);
     }
 }
