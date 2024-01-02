@@ -200,8 +200,8 @@ namespace LLamacs.Local
 
         public bool PromptContainsImage(string prompt)
         {
-            int begin, end;
-            FindImageTagInPrompt(prompt, begin, end);
+            int begin = -1, end = -1;
+            FindImageTagInPrompt(prompt, out begin, out end);
 
             return (begin != -1);
         }
