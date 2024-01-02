@@ -25,7 +25,7 @@ namespace LLamacs.Local
 
         public const int n_batch = 16;
 
-        public LLavaLLama(string modelPath, string prompt, string clipPath)
+        public LLavaLLama(string modelPath, string prompt, string clipPath, string imagePath)
         {
             // setup llava context
             LLamaClipCtx clipCtx = LLavaClipMethods.clip_model_load(clipPath);
@@ -42,7 +42,9 @@ namespace LLamacs.Local
 
             LLavaContext llavaContext = LLavaContext.Create(clipCtx, llamaContext, llamaModel);
 
-            // load image
+            LLavaImageEmbed image = LoadImage(clipCtx, llavaContext, prompt, imagePath);
+
+            ProcessPrompt(llavaContext, image, prompt);
         }
 
 
@@ -83,6 +85,7 @@ namespace LLamacs.Local
                 Console.Write(tmp);
             }
 
+            LLamaSamplingMethods.llama_sampling_free(samplingContext);
         }
 
         public string Sample(LLamaModel llamaModel, LLamaSamplingContext samplingContext, LLamaContext llamaContext, int n_past)

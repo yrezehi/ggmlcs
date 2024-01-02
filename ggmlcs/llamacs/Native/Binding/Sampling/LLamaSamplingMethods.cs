@@ -18,5 +18,8 @@ namespace LLamacs.Native.Binding.LLava
 
         [DllImport("sampling", CallingConvention = CallingConvention.Cdecl)]
         public static extern void llama_sampling_accept(LLamaSamplingContext ctx_sampling, LLamaContext ctx_main, LLamaToken id, bool apply_grammar);
+
+        [DllImport("sampling", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void llama_sampling_free(LLamaSamplingContext ctx);
     }
 }
