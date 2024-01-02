@@ -6,14 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LLamacs.Server.Clients;
 using LLamacs.Native.Binding.Definitions.Batch;
 using LLamacs.Native.Binding.Definitions.Slots;
 using LLamacs.Native.Binding.LLama;
 
 namespace LLamacs.Server
 {
-    public class ServerLLama : ILLama<LLamaClient>
+    public class ServerLLama : ILLama<LLamaClientSlot>
     {
 
         private LLamaContext Context { get; set; }
@@ -97,7 +96,7 @@ namespace LLamacs.Server
             return new ServerLLama(context, model, contextParams, modelParams);
         }
 
-        public void Infer(LLamaClient client)
+        public void Infer(LLamaClientSlot client)
         {
 
         }

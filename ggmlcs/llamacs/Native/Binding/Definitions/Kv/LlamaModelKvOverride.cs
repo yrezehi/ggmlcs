@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace LLamacs.Native.Binding.Definitions.KvOverride
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-    public struct LLamaSamplingContext
+    public struct LLamaModelKvOverride
     {
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
         public string key;
