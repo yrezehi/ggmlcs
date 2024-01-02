@@ -1,8 +1,10 @@
 ﻿using LLamacs.Native.Binding;
 using LLamacs.Native.Binding.Definitions.Batch;
 using LLamacs.Native.Binding.Definitions.Context;
+using LLamacs.Native.Binding.Definitions.KvOverride;
 using LLamacs.Native.Binding.Definitions.LLava;
 using LLamacs.Native.Binding.Definitions.Model;
+using LLamacs.Native.Binding.Definitions.Sampling;
 using LLamacs.Native.Binding.Definitions.TokenData;
 using LLamacs.Native.Binding.LLama;
 using LLamacs.Native.Binding.LLava;
@@ -60,10 +62,46 @@ namespace LLamacs.Local
         public void ProcessPrompt(LLavaContext context, LLavaImageEmbed imageEmbed, string prompt)
         {
             int n_past = 0;
+            int max_tgt_len = 256;
 
             EvalString(context.llama_context, QUESTION_ANSWERING_PROMPT, n_batch, n_past, false);
             EvalImageEmbed(context.llama_context, context.model, imageEmbed, n_batch, n_past);
             EvalString(context.llama_context, prompt + ASSISTANT_PROMPT_SUFFIX, n_batch, n_past, false);
+
+            LLamaSamplingParams samplingParams = new LLamaSamplingParams();
+            LLamaSamplingContext samplingContext = LLamaSamplingMethods.llama_sampling_init(samplingParams);
+
+            for(int index = 0; index < max_tgt_len; index++)
+            {
+                string tmp 
+            }
+
+        }
+
+        public string Sample(LLamaModel llamaModel, LLamaSamplingContext samplingContext, LLamaContext llamaContext, int n_past)
+        {
+            LLamaToken id = LLamaSamplingMethods.llama_sampling_sample(samplingContext, llamaContext, nint.Zero, 0);
+
+            LLamaSamplingMethods.llama_sampling_accept(samplingContext, llamaContext, id, true);
+
+            string ret;
+
+            if(id == LLamaMethodsHandler.TokenEos(llamaModel))
+            {
+                ret = "</s>";
+            } else
+            {
+                ret = LLamaMethodsHandler.TokenToPiece(llamaContext, id);
+            }
+
+            evalId(llamaContext, id, n_past);
+        }
+
+        public bool evalId(LLamaContext ctxLLama, int id, int nPast) {
+            List<LLamaToken> tokens = new List<LLamaToken>();
+            tokens.Add(id);
+
+            return eval_tokens(ctxLLama, tokens, 1, nPast);
         }
 
         public void EvalImageEmbed(LLamaContext context, LLamaModel model, LLavaImageEmbed image_embed, int n_batch, int n_past) 
