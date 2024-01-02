@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace GGmlcs.Native.Binding.Definitions
 {
     [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct GPT2HParams
+    public struct GPT2HParams
     {
         public int n_vocab;
         public int n_ctx;

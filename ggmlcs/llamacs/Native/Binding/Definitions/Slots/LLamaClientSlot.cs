@@ -13,11 +13,23 @@ namespace LLamacs.Native.Binding.Definitions.Slots
         public int id;
         public int task_id;
 
-        public int n_ctx = 0;
-        public int n_past = 0;
-        public int n_decoded = 0;
-        public int n_remaining = -1;
-        public int i_batch = -1;
+        public int n_ctx;
+        public int n_past;
+        public int n_decoded;
+        public int n_remaining;
+        public int i_batch;
+
+
+        public static LLamaClientSlot Create(int id, int n_ctx_slot) =>
+            new LLamaClientSlot()
+            {
+                id = id,
+                n_ctx = n_ctx_slot,
+                n_past = 0,
+                n_decoded = 0,
+                n_remaining = -1,
+                i_batch = -1
+    };
 
         /*
         struct slot_params params;
@@ -160,11 +172,5 @@ namespace LLamacs.Native.Binding.Definitions.Slots
             }
          */
 
-        public static LLamaClientSlot Create(int id, int n_ctx_slot) =>
-            new LLamaClientSlot()
-            {
-                id = id,
-                n_ctx = n_ctx_slot
-            };
     }
 }

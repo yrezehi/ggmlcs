@@ -8,8 +8,6 @@ namespace Experimental.Models
         public static void Run()
         {
             var instance = new LLavaLLama("C:\\llm_models\\llava-v1.5-7b-Q4_K.gguf", "", "C:\\llm_models\\llava-v1.5-7b\\mmproj-model-f16.gguf", "C:\\Users\\Administrator\\Downloads\\download.jpg");
-
-            instance.Infer("Hello my name is");
         }
     }
 }

@@ -16,10 +16,14 @@
 
   <ItemGroup>
     <None Remove="Native\DLLs\Runtimes\windows\llama.dll" />
+    <None Remove="Native\DLLs\Runtimes\windows\llava.dll" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Native\DLLs\Runtimes\windows\llama.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Native\DLLs\Runtimes\windows\llava.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
