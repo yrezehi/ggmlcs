@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LLamacs.Native.Binding.Definitions.GGML;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -10,7 +11,7 @@ namespace LLamacs.Native.Binding.Definitions.GGUF
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct GGMLContext
     {
-        public UIntPtr mem_size { get; set; }
+        public ulong mem_size { get; set; }
         public void* mem_buffer { get; set; }
         public bool mem_buffer_owned { get; set; }
         public bool no_alloc { get; set; }
@@ -18,11 +19,10 @@ namespace LLamacs.Native.Binding.Definitions.GGUF
 
         public int n_objects { get; set; }
 
-        /*
-        struct ggml_object * objects_begin;
-        struct ggml_object * objects_end;
+        public GGMLObject* objects_begin;
+        public GGMLObject* objects_end;
 
-        struct ggml_scratch scratch;
-        struct ggml_scratch scratch_save;*/
+        public GGMLScratch scratch;
+        public GGMLScratch scratch_save;
     }
 }

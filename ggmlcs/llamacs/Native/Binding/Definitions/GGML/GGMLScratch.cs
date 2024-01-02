@@ -5,10 +5,13 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LLamacs.Native.Binding.Definitions.GGUF
+namespace LLamacs.Native.Binding.Definitions.GGML
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct GGUFContext
+    public unsafe struct GGMLScratch
     {
+        public ulong offs;
+        public ulong size;
+        public void* data;
     }
 }

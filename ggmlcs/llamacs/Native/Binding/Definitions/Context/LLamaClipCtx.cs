@@ -17,15 +17,17 @@ namespace LLamacs.Native.Binding.Definitions.Context
         
             public ClipVisionModel vision_model;
 
-            /*
-            float image_mean[3];
-            float image_std[3];
-            bool use_gelu = false;
-            int32_t ftype = 1;
+            public float[] image_mean;
+            public float[] image_std;
 
+            public bool use_gelu;
+
+            public int ftype;
+
+            
             struct gguf_context * ctx_gguf;
             struct ggml_context * ctx_data;
-
+            /*
             std::vector<uint8_t> buf_compute_meta;
 
             // memory buffers to evaluate the model
@@ -42,6 +44,8 @@ namespace LLamacs.Native.Binding.Definitions.Context
                 has_text_encoder = false,
                 has_vision_encoder = false,
                 has_llava_projector = false,
+                use_gelu = false,
+                ftype = 1
             };
         }
     }

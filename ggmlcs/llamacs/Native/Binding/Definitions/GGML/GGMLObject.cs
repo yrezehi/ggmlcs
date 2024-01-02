@@ -15,7 +15,7 @@ namespace LLamacs.Native.Binding.Definitions.GGML
 
         public GGMLObject* next;
 
-        enum GGMLObjectType type;
+        public GGMLObjectType type;
 
         public byte* padding;
     }
