@@ -45,6 +45,12 @@ namespace LLamacs.Local
             LLavaImageEmbed image = LoadImage(clipCtx, llavaContext, prompt, imagePath);
 
             ProcessPrompt(llavaContext, image, prompt);
+
+            LLavaMethods.llava_image_embed_free(image);
+            
+            LLamaMethodsHandler.FreeContext(llamaContext);
+            LLamaMethodsHandler.FreeModel(llamaModel);
+            LLamaMethodsHandler.BackendFree();
         }
 
 
