@@ -44,6 +44,9 @@ namespace LLamacs.Native.Binding.LLama
         public static extern LLamaBatch llama_batch_get_one(LLamaToken[] tokens, int n_tokens, LLamaPos pos_0, LlamaSeqId seq_id);
 
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int llama_n_embd(LLamaModel model);
+
+        [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern void llama_free(LLamaModel context);
         [DllImport("llama", CallingConvention = CallingConvention.Cdecl)]
         public static extern void llama_free_model(LLamaModel model);
