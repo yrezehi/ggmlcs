@@ -18,6 +18,11 @@ namespace LLamacs.Local
         public const string IMAGE_BASE64_TAG_BEGIN = "<img src=\"data:image/jpeg;base64,";
         public const string IMAGE_BASE64_TAG_END = "\">";
 
+        public const string QUESTION_ANSWERING_PROMPT = "A chat between a curious human and an artificial intelligence assistant.  The assistant gives helpful, detailed, and polite answers to the human's questions.\nUSER:";
+        public const string ASSISTANT_PROMPT_SUFFIX = "\nASSISTANT:";
+
+        public const int n_batch = 16;
+
         public LLavaLLama(string modelPath, string prompt, string clipPath)
         {
             // setup llava context
@@ -39,9 +44,55 @@ namespace LLamacs.Local
         }
 
 
-        public LLavaImageEmbed LoadImage(LLavaContext lLavaContext)
+        public LLavaImageEmbed LoadImage(LLamaClipCtx clipCtx, LLavaContext llavaContext, string prompt, string imagePath)
         {
             LLavaImageEmbed imageEmbed = new LLavaImageEmbed();
+
+            if (PromptContainsImage(prompt))
+            {
+                throw new NotImplementedException();
+            } else
+            {
+                return ProcessImagePath(clipCtx, imagePath);
+            }
+        }
+
+        public void ProcessPrompt(LLavaContext context, LLavaImageEmbed imageEmbed, string prompt)
+        {
+            int n_past = 0;
+
+            EvalString(context.llama_context, QUESTION_ANSWERING_PROMPT, n_batch, n_past, false);
+
+            EvalString(context.llama_context, prompt + ASSISTANT_PROMPT_SUFFIX, n_batch, n_past, false);
+        }
+
+        public void EvalTokens(LLamaContext context, LLamaToken[] tokens, int n_batch, int n_past)
+        {
+            int n = tokens.Length;
+
+            for(int i = 0; i < n; i += n_batch)
+            {
+                int n_eval = tokens.Length - i;
+                if(n_eval > n_batch)
+                {
+                    n_eval = n_batch;
+                }
+
+                LLamaMethodsHandler.Decode(context, LLamaMethods.llama_batch_get_one(tokens, n_eval, n_past, 0));
+
+                n_past += n_eval;
+            }
+
+        }
+
+        public void EvalString(LLamaModel model, string str, int n_batch, int n_past, bool add_bos)
+        {
+            LLamaToken[] tokens = LLamaMethodsHandler.Tokenize(model, str);
+        }
+
+        public LLavaImageEmbed ProcessImagePath(LLamaClipCtx clipCtx, string imagePath)
+        {
+            return LLavaMethods.llava_image_embed_make_with_filename(clipCtx, 4, imagePath);
         }
 
         public bool PromptContainsImage(string prompt)
