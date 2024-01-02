@@ -13,7 +13,7 @@ using System.Text;
 
 namespace LLamacs.Local
 {
-    public class LLavaLLama
+    public unsafe class LLavaLLama
     {
         public const string IMAGE_BASE64_TAG_BEGIN = "<img src=\"data:image/jpeg;base64,";
         public const string IMAGE_BASE64_TAG_END = "\">";
@@ -62,8 +62,38 @@ namespace LLamacs.Local
             int n_past = 0;
 
             EvalString(context.llama_context, QUESTION_ANSWERING_PROMPT, n_batch, n_past, false);
-
+            EvalImageEmbed(context.llama_context, context.model, imageEmbed, n_batch, n_past);
             EvalString(context.llama_context, prompt + ASSISTANT_PROMPT_SUFFIX, n_batch, n_past, false);
+        }
+
+        public void EvalImageEmbed(LLamaContext context, LLamaModel model, LLavaImageEmbed image_embed, int n_batch, int n_past) 
+        {
+            int n_embd = LLamaMethods.llama_n_embd(model);
+
+            for(int i = 0; i < image_embed.n_image_pos; i += n_batch)
+            {
+                int n_eval = image_embed.n_image_pos - i;
+
+                if(n_eval > n_batch)
+                {
+                    n_eval = n_batch;
+                }
+
+                LLamaBatch batch = LLamaMethodsHandler.BatchInit();
+
+                batch.n_tokens = n_eval;
+                batch.token = null;
+                batch.embd = image_embed.embed+i*n_embd;
+                batch.pos = null;
+                batch.n_seq_id = null;
+                batch.seq_id = null;
+                batch.logits = null;
+                batch.all_pos_0 = n_past;
+                batch.all_pos_1 = 1;
+                batch.all_seq_id = 0;
+
+                LLamaMethodsHandler.Decode(context, batch);
+            }
         }
 
         public void EvalTokens(LLamaContext context, LLamaToken[] tokens, int n_batch, int n_past)
