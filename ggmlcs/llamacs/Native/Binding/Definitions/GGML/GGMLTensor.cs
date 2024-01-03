@@ -9,7 +9,7 @@ namespace LLamacs.Native.Binding.Definitions.GGML
         public GGMLType type;
         public GGMLBackendType backend;
 
-        struct ggml_backend_buffer * buffer;
+        struct ggml_backend_buffer* buffer;
 
         int64_t ne[GGML_MAX_DIMS]; // number of elements
         size_t nb[GGML_MAX_DIMS]; // stride in bytes:

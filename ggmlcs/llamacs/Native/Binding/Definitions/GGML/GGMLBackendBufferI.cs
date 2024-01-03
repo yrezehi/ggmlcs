@@ -10,11 +10,11 @@ namespace LLamacs.Native.Binding.Definitions.GGML
 
     public unsafe delegate void FreeBuffer(GGMLBackendBufferT buffer);
     public unsafe delegate void* GetBase(GGMLBackendBufferT buffer);
-    public unsafe delegate void InitTensor(GGMLBackendBufferT buffer, ggml_tensor* tensor);
-    public unsafe delegate void SetTensor(GGMLBackendBufferT buffer, ggml_tensor* tensor, void* data, UIntPtr offset, UIntPtr size);
-    public unsafe delegate void GetTensor(GGMLBackendBufferT buffer, ggml_tensor* tensor, void* data, UIntPtr offset, UIntPtr size);
-    public unsafe delegate void CpyTensorFrom(GGMLBackendBufferT buffer, ggml_tensor* src, ggml_tensor* dst);
-    public unsafe delegate void CpyTensorTo(GGMLBackendBufferT buffer, ggml_tensor* src, ggml_tensor* dst);
+    public unsafe delegate void InitTensor(GGMLBackendBufferT buffer, GGMLTensor tensor);
+    public unsafe delegate void SetTensor(GGMLBackendBufferT buffer, GGMLTensor tensor, void* data, UIntPtr offset, UIntPtr size);
+    public unsafe delegate void GetTensor(GGMLBackendBufferT buffer, GGMLTensor tensor, void* data, UIntPtr offset, UIntPtr size);
+    public unsafe delegate void CpyTensorFrom(GGMLBackendBufferT buffer, GGMLTensor src, GGMLTensor dst);
+    public unsafe delegate void CpyTensorTo(GGMLBackendBufferT buffer, GGMLTensor src, GGMLTensor dst);
     public unsafe delegate void Clear(GGMLBackendBufferT buffer, byte value);
     
     [StructLayout(LayoutKind.Sequential)]
