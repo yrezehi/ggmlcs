@@ -12,6 +12,6 @@ namespace LLamacs.Native.Binding.Definitions.GGML
     {
         public ggml_backend_i iface;
 
-        ggml_backend_context_t context;
+        public ggml_backend_context_t context;
     }
 }
