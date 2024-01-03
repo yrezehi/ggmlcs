@@ -8,3 +8,5 @@ global using LlamaSeqId = System.Int32;
 global using GGMLBackendBufferT = System.IntPtr;
 global using GGMLBackendT = System.IntPtr;
 global using GGMLAllocr = System.IntPtr;
+
+global using GGMLBackendBufferContextT = System.IntPtr;

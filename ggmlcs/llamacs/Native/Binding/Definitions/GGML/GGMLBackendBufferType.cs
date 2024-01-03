@@ -8,11 +8,9 @@ using System.Threading.Tasks;
 namespace LLamacs.Native.Binding.Definitions.GGML
 {
     [StructLayout(LayoutKind.Sequential)]
-    public unsafe struct GGMLBackendBuffer
+    public unsafe struct GGMLBackendBufferType
     {
-        public ggml_backend_buffer_i  iface;
-        public ggml_backend_buffer_type_t buft;
-        public ggml_backend_buffer_context_t context;
-        public UIntPtr size;
+        public ggml_backend_buffer_type_i  iface;
+        public ggml_backend_buffer_type_context_t context;
     }
 }
