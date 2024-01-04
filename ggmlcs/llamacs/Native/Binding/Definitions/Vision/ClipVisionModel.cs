@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LLamacs.Native.Binding.Definitions.Clips;
+using LLamacs.Native.Binding.Definitions.GGML;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -12,21 +14,21 @@ namespace LLamacs.Native.Binding.Definitions.Vision
     {
         public ClipVisionHParams hparams;
 
-        public ggml_tensor* class_embedding;
-        public ggml_tensor* patch_embeddings;
-        public ggml_tensor* position_embeddings;
-        public ggml_tensor* pre_ln_w;
-        public ggml_tensor* pre_ln_b;
+        public GGMLTensor* class_embedding;
+        public GGMLTensor* patch_embeddings;
+        public GGMLTensor* position_embeddings;
+        public GGMLTensor* pre_ln_w;
+        public GGMLTensor* pre_ln_b;
 
-        public std::vector<clip_layer> layers;
-        public ggml_tensor* post_ln_w;
-        public ggml_tensor* post_ln_b;
+        public LLamaClipLayer[] layers;
+        public GGMLTensor* post_ln_w;
+        public GGMLTensor* post_ln_b;
 
-        public ggml_tensor* projection;
+        public GGMLTensor* projection;
 
-        public ggml_tensor* mm_0_w;
-        public ggml_tensor* mm_0_b;
-        public ggml_tensor* mm_2_w;
-        public ggml_tensor* mm_2_b;
+        public GGMLTensor* mm_0_w;
+        public GGMLTensor* mm_0_b;
+        public GGMLTensor* mm_2_w;
+        public GGMLTensor* mm_2_b;
     }
 }

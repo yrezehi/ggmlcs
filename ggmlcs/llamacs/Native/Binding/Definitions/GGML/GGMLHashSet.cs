@@ -10,5 +10,7 @@ namespace LLamacs.Native.Binding.Definitions.GGML
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct GGMLHashSet
     {
+        public IntPtr size;
+        public GGMLTensor** keys;
     }
 }

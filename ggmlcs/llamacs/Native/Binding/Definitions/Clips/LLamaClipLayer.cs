@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LLamacs.Native.Binding.Definitions.GGML;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -10,26 +11,26 @@ namespace LLamacs.Native.Binding.Definitions.Clips
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct LLamaClipLayer
     {
-        public ggml_tensor* k_w;
-        public ggml_tensor* k_b;
-        public ggml_tensor* q_w;
-        public ggml_tensor* q_b;
-        public ggml_tensor* v_w;
-        public ggml_tensor* v_b;
+        public GGMLTensor* k_w;
+        public GGMLTensor* k_b;
+        public GGMLTensor* q_w;
+        public GGMLTensor* q_b;
+        public GGMLTensor* v_w;
+        public GGMLTensor* v_b;
 
-        public ggml_tensor* o_w;
-        public ggml_tensor* o_b;
+        public GGMLTensor* o_w;
+        public GGMLTensor* o_b;
 
-        public ggml_tensor* ln_1_w;
-        public ggml_tensor* ln_1_b;
+        public GGMLTensor* ln_1_w;
+        public GGMLTensor* ln_1_b;
 
-        public ggml_tensor* ff_i_w;
-        public ggml_tensor* ff_i_b;
+        public GGMLTensor* ff_i_w;
+        public GGMLTensor* ff_i_b;
 
-        public ggml_tensor* ff_o_w;
-        public ggml_tensor* ff_o_b;
+        public GGMLTensor* ff_o_w;
+        public GGMLTensor* ff_o_b;
 
-        public ggml_tensor* ln_2_w;
-        public ggml_tensor* ln_2_b;
+        public GGMLTensor* ln_2_w;
+        public GGMLTensor* ln_2_b;
     }
 }
