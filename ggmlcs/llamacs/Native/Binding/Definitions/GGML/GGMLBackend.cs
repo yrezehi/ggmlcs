@@ -10,8 +10,8 @@ namespace LLamacs.Native.Binding.Definitions.GGML
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct GGMLBackend
     {
-        public ggml_backend_i iface;
+        public GGMLBackendI iface;
 
-        public ggml_backend_context_t context;
+        public GGMLBackendBufferContextT context;
     }
 }

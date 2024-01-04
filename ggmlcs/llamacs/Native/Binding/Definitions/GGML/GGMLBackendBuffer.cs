@@ -10,9 +10,9 @@ namespace LLamacs.Native.Binding.Definitions.GGML
     [StructLayout(LayoutKind.Sequential)]
     public unsafe struct GGMLBackendBuffer
     {
-        public ggml_backend_buffer_i  iface;
-        public ggml_backend_buffer_type_t buft;
-        public ggml_backend_buffer_context_t context;
+        public GGMLBackendBufferI  iface;
+        public GGMLBackendBufferTypeT buft;
+        public GGMLBackendBufferContextT context;
         public UIntPtr size;
     }
 }

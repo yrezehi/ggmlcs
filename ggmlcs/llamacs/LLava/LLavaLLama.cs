@@ -7,6 +7,7 @@ using LLamacs.Native.Binding.Definitions.Context;
 using LLamacs.Native.Binding.Definitions.Sampling;
 using LLamacs.Native.Binding.Definitions.KvOverride;
 using LLamacs.Native.DLLs;
+using LLamacs.Native.Binding.Definitions.Clips;
 
 namespace LLamacs.Local
 {
