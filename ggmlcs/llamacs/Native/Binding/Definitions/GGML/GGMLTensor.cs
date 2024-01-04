@@ -9,16 +9,12 @@ namespace LLamacs.Native.Binding.Definitions.GGML
         public GGMLType type;
         public GGMLBackendType backend;
 
-        struct ggml_backend_buffer* buffer;
+        public GGMLBackendBuffer* buffer;
 
-        int64_t ne[GGML_MAX_DIMS]; // number of elements
-        size_t nb[GGML_MAX_DIMS]; // stride in bytes:
-                                  // nb[0] = ggml_type_size(type)
-                                  // nb[1] = nb[0]   * (ne[0] / ggml_blck_size(type)) + padding
-                                  // nb[i] = nb[i-1] * ne[i-1]
+        public long[] ne;
+        public IntPtr[] nb;
 
-        // compute data
-        enum ggml_op op;
+        public GGMLOP op;
 
         // op params - allocated as int32_t for alignment
         int32_t op_params[GGML_MAX_OP_PARAMS / sizeof(int32_t)];
