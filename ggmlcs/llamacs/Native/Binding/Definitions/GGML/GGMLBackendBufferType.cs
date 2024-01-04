@@ -11,6 +11,6 @@ namespace LLamacs.Native.Binding.Definitions.GGML
     public unsafe struct GGMLBackendBufferType
     {
         public GGMLBackendBufferTypeI iface;
-        public ggml_backend_buffer_type_context_t context;
+        public GGMLBackendBufferTypeContextT context;
     }
 }

@@ -10,3 +10,4 @@ global using GGMLBackendT = System.IntPtr;
 global using GGMLAllocr = System.IntPtr;
 
 global using GGMLBackendBufferContextT = System.IntPtr;
+global using GGMLBackendBufferTypeContextT = System.IntPtr;
