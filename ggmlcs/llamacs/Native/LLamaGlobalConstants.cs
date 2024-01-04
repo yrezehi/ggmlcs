@@ -11,3 +11,5 @@ global using GGMLAllocr = System.IntPtr;
 
 global using GGMLBackendBufferContextT = System.IntPtr;
 global using GGMLBackendBufferTypeContextT = System.IntPtr;
+global using GGMLBackendBufferTypeT = System.IntPtr;
+global using GGMLBackendGraphPlanT = System.IntPtr;
