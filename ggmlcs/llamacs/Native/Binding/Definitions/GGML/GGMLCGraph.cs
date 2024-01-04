@@ -18,9 +18,9 @@ namespace LLamacs.Native.Binding.Definitions.GGML
         public GGMLTensor** grads;
         public GGMLTensor** leafs;
 
-        struct ggml_hash_set visited_hash_table;
+        public GGMLHashSet visited_hash_table;
 
-        enum ggml_cgraph_eval_order order;
+        public GGMLCGraphEvalOrder order;
 
         // performance
         public int perf_runs;

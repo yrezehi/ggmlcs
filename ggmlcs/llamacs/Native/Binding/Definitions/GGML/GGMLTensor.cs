@@ -16,28 +16,27 @@ namespace LLamacs.Native.Binding.Definitions.GGML
 
         public GGMLOP op;
 
-        // op params - allocated as int32_t for alignment
-        int32_t op_params[GGML_MAX_OP_PARAMS / sizeof(int32_t)];
+        public int[] op_params;
 
-        bool is_param;
+        public bool is_param;
 
-        struct ggml_tensor * grad;
-        struct ggml_tensor * src[GGML_MAX_SRC];
+        public GGMLTensor* grad;
+        public GGMLTensor[] src;
 
         // performance
-        int perf_runs;
-        int64_t perf_cycles;
-        int64_t perf_time_us;
+        public int perf_runs;
+        public long perf_cycles;
+        public long perf_time_us;
 
-        struct ggml_tensor * view_src;
-        size_t view_offs;
+        public GGMLTensor* view_src;
+        public IntPtr view_offs;
 
-        void* data;
+        public void* data;
 
-        char name[GGML_MAX_NAME];
+        public char[] name;
 
-        void* extra; // extra things e.g. for ggml-cuda.cu
+        public void* extra;
 
-        char padding[8];
+        public char[] padding;
     }
 }
