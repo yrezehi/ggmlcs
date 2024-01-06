@@ -23,7 +23,7 @@ Verfied Models on current state of the project
 - [ ] GGML Converter
 - [ ] Binding GGML
 - [ ] GPT-2 Binding
-- [ ] Binding LLAMA
+- [x] Binding LLAMA
 - [ ] Quantization support
 - [ ] Serve as server
 - [ ] Serve concurrent users
