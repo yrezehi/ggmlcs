@@ -10,7 +10,7 @@ using System.Text;
 
 namespace LLamacs.Local
 {
-    public unsafe class SimpleLLama : ILLama<string>
+    public unsafe class SimpleLLama 
     {
         private LLamaContext Context { get; set; }
         private LLamaModel Model { get; set; }
@@ -43,18 +43,17 @@ namespace LLamacs.Local
             return new SimpleLLama(context, model, contextParams);
         }
 
-        public void Infer(string prompt)
+        public string Infer(string prompt)
         {
-            Console.Write(prompt);
-
             LLamaToken[] tokens = LLamaMethodsHandler.Tokenize(Model, prompt);
+            StringBuilder result = new StringBuilder();
 
-            int n_len = 32;
+            int nLen = 32;
 
-            int n_ctx = LLamaMethodsHandler.NCtx(Context);
-            int n_kv_req = tokens.Length + (n_len - tokens.Length);
+            int nCtx = LLamaMethodsHandler.NCtx(Context);
+            int nKVReq = tokens.Length + (nLen - tokens.Length);
 
-            if (n_kv_req > n_ctx)
+            if (nKVReq > nCtx)
             {
                 throw new MemberAccessException(message: $"KV Cache is not big enough!");
             }
@@ -70,38 +69,38 @@ namespace LLamacs.Local
 
             LLamaMethodsHandler.Decode(Context, batch);
 
-            int n_cur = batch.n_tokens;
+            int nCur = batch.n_tokens;
 
-            while (n_cur <= n_len)
+            while (nCur <= nLen)
             {
-                int n_vocab = LLamaMethodsHandler.NVocab(Model);
+                int nVocab = LLamaMethodsHandler.NVocab(Model);
                 float* logits = LLamaMethodsHandler.GetLogitsIth(Context, batch.n_tokens - 1);
 
-                LLamaTokenData[] candidates = new LLamaTokenData[n_vocab];
+                LLamaTokenData[] candidates = new LLamaTokenData[nVocab];
 
-                for (LLamaToken token = 0; token < n_vocab; token++)
+                for (LLamaToken token = 0; token < nVocab; token++)
                 {
                     candidates[token] = new LLamaTokenData(token, logits[token], 0.0f);
                 }
 
-                LLamaTokenDataArray candidates_p = new LLamaTokenDataArray(candidates, candidates.Length, false);
+                LLamaTokenDataArray candidatesP = new LLamaTokenDataArray(candidates, candidates.Length, false);
 
-                LLamaToken token_id = LLamaMethodsHandler.SampleTokenGreedy(Context, ref candidates_p);
+                LLamaToken tokenId = LLamaMethodsHandler.SampleTokenGreedy(Context, ref candidatesP);
 
-                if (token_id == LLamaMethodsHandler.TokenEos(Model) || n_cur == n_len)
+                if (tokenId == LLamaMethodsHandler.TokenEos(Model) || nCur == nLen)
                 {
                     break;
                 }
 
-                string resultText = LLamaMethodsHandler.TokenToPiece(Model, token_id);
+                string resultText = LLamaMethodsHandler.TokenToPiece(Model, tokenId);
 
-                Console.Write(resultText);
+                result.Append(resultText);
 
                 batch.n_tokens = 0;
 
-                LLamaMethodsHandler.BatchAdd(ref batch, token_id, n_cur, new[] { 0 }, true);
+                LLamaMethodsHandler.BatchAdd(ref batch, tokenId, nCur, new[] { 0 }, true);
 
-                n_cur += 1;
+                nCur += 1;
 
                 LLamaMethodsHandler.Decode(Context, batch);
             }
@@ -109,6 +108,8 @@ namespace LLamacs.Local
             LLamaMethodsHandler.BatchFree(batch);
 
             FreeModelResources();
+
+            return result.ToString();
         }
 
 
