@@ -52,6 +52,7 @@ build_llama() {
 
 post_llama_build() {
     cp "$llama_project_directory/build/bin/$build_type/llama.dll" $dll_output_dictionary
+    
     cp "$llama_project_directory/build/bin/$build_type/llava_shared.dll" $dll_output_dictionary
 }
 

@@ -8,6 +8,7 @@ using LLamacs.Native.Binding.Definitions.Sampling;
 using LLamacs.Native.Binding.Definitions.KvOverride;
 using LLamacs.Native.DLLs;
 using LLamacs.Native.Binding.Definitions.Clips;
+using System.Text;
 
 namespace LLamacs.Local
 {
@@ -25,7 +26,13 @@ namespace LLamacs.Local
         {
             DLLLoader.LibraryLoad();
 
-            LLamaClipCtx clipCtx = LLavaClipMethods.clip_model_load(clipPath);
+            char[] chars = clipPath.ToCharArray();
+            LLamaClipCtx clipCtx;
+            // Convert char[] to char*
+            fixed (char* charPtr = chars)
+            {
+                clipCtx = LLavaClipMethods.clip_model_load(charPtr);
+            }
 
             LLamaMethodsHandler.BackendInit();
 
