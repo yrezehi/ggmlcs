@@ -8,45 +8,57 @@ namespace Server
         public static void RegisterControllers(this WebApplication application)
         {
             application.Index();
+            application.IndexJS();
+            application.CompletionJS();
+            application.JsonSchemaToGrammarMJS();
+            application.Props();
+            application.Completion();
+            application.Models();
+            application.ChatCompletions();
+            application.Infill();
+            application.ModelJson();
+            application.Tokenize();
+            application.Detokenize();
+            application.Embedding();
         }
 
         private static void Index(this WebApplication application) =>
             application.MapGet("/", () => "");
 
         private static void IndexJS(this WebApplication application) =>
-            application.MapGet("/", () => "");
+            application.MapGet("/index.js", () => "");
 
-        private static void completionJS(this WebApplication application) =>
-            application.MapGet("/", () => "");
+        private static void CompletionJS(this WebApplication application) =>
+            application.MapGet("/completion.js", () => "");
 
         private static void JsonSchemaToGrammarMJS(this WebApplication application) =>
-            application.MapGet("/", () => "");
+            application.MapGet("/json-schema-to-grammar.mjs", () => "");
 
         private static void Props(this WebApplication application) =>
-            application.MapGet("/", () => "");
+            application.MapGet("/props", () => "");
 
         private static void Completion(this WebApplication application) =>
-            application.MapGet("/", () => "");
+            application.MapGet("/completion", () => "");
 
         private static void Models(this WebApplication application) =>
-            application.MapGet("/", () => "");
+            application.MapGet("/v1/models", () => "");
 
         private static void ChatCompletions(this WebApplication application) =>
-            application.MapGet("/", () => "");
+            application.MapGet("/v1/chat/completions", () => "");
 
         private static void Infill(this WebApplication application) =>
-            application.MapGet("/", () => "");
+            application.MapGet("/infill", () => "");
 
         private static void ModelJson(this WebApplication application) =>
-            application.MapGet("/", () => "");
+            application.MapGet("/model.json", () => "");
 
         private static void Tokenize(this WebApplication application) =>
-            application.MapGet("/", () => "");
+            application.MapGet("/tokenize", () => "");
 
         private static void Detokenize(this WebApplication application) =>
-            application.MapGet("/", () => ""); 
+            application.MapGet("/detokenize", () => ""); 
 
         private static void Embedding(this WebApplication application) =>
-            application.MapGet("/", () => ""); 
+            application.MapGet("/embedding", () => ""); 
     }
 }
