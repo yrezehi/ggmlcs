@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace LLamacs.Native.Binding.Definitions.KvOverride
+namespace LLamacs.Native.Binding.Definitions.Sampling
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct LLamaSamplingContext

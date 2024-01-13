@@ -19,6 +19,7 @@
     <None Remove="Native\DLLs\Runtimes\windows\llama.dll" />
     <None Remove="Native\DLLs\Runtimes\windows\llava.dll" />
     <None Remove="Native\DLLs\Runtimes\windows\llava_shared.dll" />
+    <None Remove="Tokenizers\bin\tokenizer.bin" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Native\DLLs\Runtimes\windows\llava_shared.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tokenizers\bin\tokenizer.bin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

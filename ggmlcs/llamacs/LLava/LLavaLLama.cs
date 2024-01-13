@@ -5,12 +5,12 @@ using LLamacs.Native.Binding.Definitions.Model;
 using LLamacs.Native.Binding.Definitions.Batch;
 using LLamacs.Native.Binding.Definitions.Context;
 using LLamacs.Native.Binding.Definitions.Sampling;
-using LLamacs.Native.Binding.Definitions.KvOverride;
 using LLamacs.Native.DLLs;
 using LLamacs.Native.Binding.Definitions.Clips;
 using System.Text;
+using LLamacs.Native.Binding.Sampling;
 
-namespace LLamacs.Local
+namespace LLamacs.LLava
 {
     public unsafe class LLavaLLama
     {
@@ -51,7 +51,7 @@ namespace LLamacs.Local
             ProcessPrompt(llavaContext, image, prompt);
 
             LLavaMethods.llava_image_embed_free(image);
-            
+
             LLamaMethodsHandler.FreeContext(llamaContext);
             LLamaMethodsHandler.FreeModel(llamaModel);
             LLamaMethodsHandler.BackendFree();
@@ -65,7 +65,8 @@ namespace LLamacs.Local
             if (PromptContainsImage(prompt))
             {
                 throw new NotImplementedException();
-            } else
+            }
+            else
             {
                 return ProcessImagePath(clipCtx, imagePath);
             }
@@ -100,7 +101,7 @@ namespace LLamacs.Local
 
         public string Sample(LLamaModel llamaModel, LLamaSamplingContext samplingContext, LLamaContext llamaContext, int n_past)
         {
-            LLamaToken id = LLamaSamplingMethods.llama_sampling_sample(samplingContext, llamaContext, nint.Zero, 0);
+            LLamaToken id = LLamaSamplingMethods.llama_sampling_sample(samplingContext, llamaContext, GGMLAllocr.Zero, 0);
 
             LLamaSamplingMethods.llama_sampling_accept(samplingContext, llamaContext, id, true);
 
@@ -109,7 +110,8 @@ namespace LLamacs.Local
             if (id == LLamaMethodsHandler.TokenEos(llamaModel))
             {
                 ret = "</s>";
-            } else
+            }
+            else
             {
                 ret = LLamaMethodsHandler.TokenToPiece(llamaContext, id);
             }
@@ -119,21 +121,23 @@ namespace LLamacs.Local
             return ret;
         }
 
-        public bool evalId(LLamaContext ctxLLama, int id, int nPast) {
+        public bool evalId(LLamaContext ctxLLama, int id, int nPast)
+        {
             LLamaToken[] tokens = new LLamaToken[1];
-            tokens[0] = (id);
+            tokens[0] = id;
 
             return evalTokens(ctxLLama, tokens, 1, nPast);
         }
 
-        static bool evalTokens(LLamaContext ctx_llama, LLamaToken[] tokens, int n_batch, int n_past) {
+        static bool evalTokens(LLamaContext ctx_llama, LLamaToken[] tokens, int n_batch, int n_past)
+        {
             int n = tokens.Length;
 
-            for(int index = 0; index < n; index += n_batch)
+            for (int index = 0; index < n; index += n_batch)
             {
                 int n_eval = tokens.Length - index;
 
-                if(n_eval > n_batch)
+                if (n_eval > n_batch)
                 {
                     n_eval = n_batch;
                 }
@@ -146,15 +150,15 @@ namespace LLamacs.Local
             return true;
         }
 
-        public void EvalImageEmbed(LLamaContext context, LLamaModel model, LLavaImageEmbed image_embed, int n_batch, int n_past) 
+        public void EvalImageEmbed(LLamaContext context, LLamaModel model, LLavaImageEmbed image_embed, int n_batch, int n_past)
         {
             int n_embd = LLamaMethods.llama_n_embd(model);
 
-            for(int i = 0; i < image_embed.n_image_pos; i += n_batch)
+            for (int i = 0; i < image_embed.n_image_pos; i += n_batch)
             {
                 int n_eval = image_embed.n_image_pos - i;
 
-                if(n_eval > n_batch)
+                if (n_eval > n_batch)
                 {
                     n_eval = n_batch;
                 }
@@ -163,7 +167,7 @@ namespace LLamacs.Local
 
                 batch.n_tokens = n_eval;
                 batch.token = null;
-                batch.embd = image_embed.embed+i*n_embd;
+                batch.embd = image_embed.embed + i * n_embd;
                 batch.pos = null;
                 batch.n_seq_id = null;
                 batch.seq_id = null;
@@ -180,10 +184,10 @@ namespace LLamacs.Local
         {
             int n = tokens.Length;
 
-            for(int i = 0; i < n; i += n_batch)
+            for (int i = 0; i < n; i += n_batch)
             {
                 int n_eval = tokens.Length - i;
-                if(n_eval > n_batch)
+                if (n_eval > n_batch)
                 {
                     n_eval = n_batch;
                 }
@@ -211,7 +215,7 @@ namespace LLamacs.Local
             int begin = -1, end = -1;
             FindImageTagInPrompt(prompt, out begin, out end);
 
-            return (begin != -1);
+            return begin != -1;
         }
 
         public void FindImageTagInPrompt(string prompt, out int begin, out int end)

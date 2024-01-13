@@ -1,7 +1,6 @@
-﻿using LLamacs.Native.Binding.Definitions.Kv;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
-namespace LLamacs.Native.Binding.Definitions.KvOverride
+namespace LLamacs.Native.Binding.Definitions.Kv
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct LLamaModelKvOverride

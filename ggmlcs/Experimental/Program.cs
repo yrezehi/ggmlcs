@@ -1,3 +1,3 @@
 ﻿using Experimental.Models;
 
-LLavaLLamaRunner.Run();
+SimpleLLamaRunner.Run();

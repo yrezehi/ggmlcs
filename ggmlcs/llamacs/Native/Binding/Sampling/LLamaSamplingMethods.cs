@@ -1,12 +1,11 @@
 ﻿using LLamacs.Native.Binding.Definitions.Batch;
 using LLamacs.Native.Binding.Definitions.Context;
-using LLamacs.Native.Binding.Definitions.KvOverride;
 using LLamacs.Native.Binding.Definitions.Model;
 using LLamacs.Native.Binding.Definitions.Sampling;
 using LLamacs.Native.Binding.Definitions.TokenData;
 using System.Runtime.InteropServices;
 
-namespace LLamacs.Native.Binding.LLava
+namespace LLamacs.Native.Binding.Sampling
 {
     public static unsafe class LLamaSamplingMethods
     {

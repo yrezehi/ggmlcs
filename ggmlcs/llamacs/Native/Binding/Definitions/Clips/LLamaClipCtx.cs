@@ -1,4 +1,5 @@
-﻿using LLamacs.Native.Binding.Definitions.GGUF;
+﻿using LLamacs.Native.Binding.Definitions.GGML;
+using LLamacs.Native.Binding.Definitions.GGUF;
 using LLamacs.Native.Binding.Definitions.Vision;
 using System;
 using System.Collections.Generic;

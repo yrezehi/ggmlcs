@@ -1,4 +1,5 @@
-﻿using LLamacs.Local;
+﻿
+using LLamacs.LLava;
 
 namespace Experimental.Models
 {

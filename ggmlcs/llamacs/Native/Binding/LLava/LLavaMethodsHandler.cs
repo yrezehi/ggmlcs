@@ -6,10 +6,10 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace LLamacs.Native.Binding.LLama
+namespace LLamacs.Native.Binding.LLava
 {
     public static unsafe class LLavaMethodsHandler
     {
-        
+
     }
 }
